@@ -13,7 +13,9 @@ export default function Home() {
       <div>
         <Carousel />
       </div>
-      <div>
+      <div className="m-3 grid place-content-between lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2">
+        <Card />
+        <Card />
         <Card />
       </div>
       <div>
