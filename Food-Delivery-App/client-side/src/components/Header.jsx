@@ -5,7 +5,7 @@ import src from "../assets/Food.png";
 export default function Header() {
   return (
     <>
-      <nav className="bg-green-500 shadow-lg">
+      <nav className="bg-green-700 shadow-lg">
         <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 text-black">
           <div className="relative flex h-16 items-center justify-between">
             <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
