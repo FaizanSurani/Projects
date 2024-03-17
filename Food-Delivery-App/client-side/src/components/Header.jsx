@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import src from "../assets/Food.png";
+import SignUp from "../pages/SignUp";
 
 export default function Header() {
   return (
@@ -23,6 +24,9 @@ export default function Header() {
                 </li>
                 <li className="text-black hover:bg-black hover:text-white rounded-md px-3 py-2 text-sm font-medium">
                   <Link to="/sign-in">Sign In</Link>
+                </li>
+                <li className="text-black hover:bg-black hover:text-white rounded-md px-3 py-2 text-sm font-medium">
+                  <Link to="/sign-up">Sign Up</Link>
                 </li>
               </ul>
             </div>
