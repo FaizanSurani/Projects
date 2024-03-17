@@ -1,141 +1,114 @@
-import * as React from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}>
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-
-// TODO remove, this demo shouldn't need to reset the theme.
-
-const defaultTheme = createTheme();
+import React, { useState } from "react";
+import { Link, json, useNavigate } from "react-router-dom";
 
 export default function SignUp() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    address: "",
+  });
+
+  const { name, email, password, address } = formData;
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const response = await fetch("http://localhost:3000/createuser", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: name,
+        email: email,
+        password: password,
+        location: address,
+      }),
     });
+    const json = await response.json();
+    console.log(json);
+
+    if (json.success) {
+      navigate("/sign-up");
+    } else {
+      alert("Enter valid credentials");
+    }
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}>
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign up
-          </Typography>
-          <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit}
-            sx={{ mt: 3 }}>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="given-name"
-                  name="firstName"
-                  required
-                  fullWidth
-                  id="firstName"
-                  label="First Name"
-                  autoFocus
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox value="allowExtraEmails" color="primary" />
-                  }
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
-              </Grid>
-            </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}>
-              Sign Up
-            </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link href="#" variant="body2">
-                  Already have an account? Sign in
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-        <Copyright sx={{ mt: 5 }} />
-      </Container>
-    </ThemeProvider>
+    <>
+      <div className="text-center text-4xl mt-6 mb-6 px-7 py-3 font-semibold">
+        <h1>Sign Up</h1>
+      </div>
+      <div className="flex flex-col justify-center items-center">
+        <form onSubmit={handleSubmit} className="w-full max-w-md">
+          <label htmlFor="name" className="block text-gray-300 mt-3">
+            Name
+          </label>
+          <input
+            className="w-full px-7 py-3 mb-3 rounded-md border border-gray-700  transition duration-150 ease-in-out hover:border-gray-600 active:border-gray-800  bg-gray-800"
+            type="text"
+            placeholder="Name"
+            id="name"
+            value={name}
+            onChange={handleChange}
+          />
+
+          <label htmlFor="email" className="block text-gray-300 mt-3">
+            Email Address
+          </label>
+          <input
+            className="w-full px-7 py-3  mb-3 rounded-md border border-gray-700  transition duration-150 ease-in-out hover:border-gray-600 active:border-gray-800 text-gray-300 bg-gray-800"
+            type="email"
+            placeholder="Email Address"
+            id="email"
+            value={email}
+            onChange={handleChange}
+          />
+          <br />
+          <label htmlFor="password" className="block text-gray-300 mt-3">
+            Password
+          </label>
+          <input
+            className="w-full px-7 py-3  mb-3 rounded-md border border-gray-700  transition duration-150 ease-in-out hover:border-gray-600 active:border-gray-800 text-gray-300 bg-gray-800"
+            type="password"
+            placeholder="Password"
+            id="password"
+            value={password}
+            onChange={handleChange}
+          />
+          <br />
+          <label htmlFor="address" className="block text-gray-300 mt-3">
+            Address
+          </label>
+          <input
+            className="w-full px-7 py-3  mb-3 rounded-md border border-gray-700  transition duration-150 ease-in-out hover:border-gray-600 active:border-gray-800 text-gray-300 bg-gray-800"
+            type="text"
+            placeholder="Address"
+            id="address"
+            value={address}
+            onChange={handleChange}
+          />
+          <br />
+          <button
+            type="submit"
+            className="uppercase font-semibold w-full px-7 py-3 mt-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:bg-indigo-700 transition duration-150 ease-in-out">
+            Sign Up
+          </button>
+          <br />
+          <p className="mt-3">
+            Already have an account?{" "}
+            <Link to="/sign-in" className="text-indigo-600 hover:underline">
+              Sign In
+            </Link>
+          </p>
+        </form>
+      </div>
+    </>
   );
 }

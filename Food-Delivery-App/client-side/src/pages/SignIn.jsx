@@ -1,118 +1,76 @@
-import * as React from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}>
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-
-// TODO remove, this demo shouldn't need to reset the theme.
-
-const defaultTheme = createTheme();
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function SignIn() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+  const [formData, setFormData] = useState({
+    name: "",
+    password: "",
+  });
+
+  const { name, password } = formData;
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    navigate("/");
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}>
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}>
-              Sign In
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
-      </Container>
-    </ThemeProvider>
+    <>
+      <div className="text-center text-4xl mt-6 mb-6 px-7 py-3 font-semibold text-white">
+        <h1>Sign In</h1>
+      </div>
+      <div className="flex flex-col justify-center items-center">
+        <form onSubmit={handleSubmit} className="w-full max-w-md">
+          <label htmlFor="name" className="block text-gray-300 mt-3">
+            Name
+          </label>
+          <input
+            className="w-full px-7 py-3  mb-3 rounded-md border border-gray-700  transition duration-150 ease-in-out hover:border-gray-600 active:border-gray-800 text-gray-300 bg-gray-800"
+            type="text"
+            placeholder="Name"
+            id="name"
+            value={name}
+            onChange={handleChange}
+          />
+          <br />
+          <label htmlFor="password" className="block text-gray-300">
+            Password
+          </label>
+          <input
+            className="w-full px-7 py-3 mb-3 rounded-md border border-gray-700  transition duration-150 ease-in-out hover:border-gray-600 active:border-gray-800 text-gray-300 bg-gray-800"
+            type="password"
+            placeholder="Password"
+            id="password"
+            value={password}
+            onChange={handleChange}
+          />
+          <br />
+          <button
+            className="uppercase font-semibold w-full px-4 py-2 mt-3 mb-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition duration-150 ease-in-out"
+            type="submit">
+            Sign In
+          </button>
+          <br />
+          <div className="flex justify-between items-center mt-3">
+            <Link
+              to="/forgot-password"
+              className="text-indigo-600 hover:underline">
+              Forgot Password?
+            </Link>
+            <p>
+              Don't have an account?{" "}
+              <Link to="/sign-up" className="text-indigo-600 hover:underline">
+                Sign Up
+              </Link>
+            </p>
+          </div>
+        </form>
+      </div>
+    </>
   );
 }

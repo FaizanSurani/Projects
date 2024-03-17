@@ -7,7 +7,7 @@ const router = express.Router();
 router.post(
   "/createuser",
   body("name").isLength({ min: 5 }),
-  body("password", "Incorrect Password").isLength({ min: 5 }),
+  body("password", "Incorrect").isLength({ min: 5 }),
   body("email").isEmail(),
   body("location"),
 
@@ -32,5 +32,7 @@ router.post(
     }
   }
 );
+
+router.get("/getuser", (req, res) => {});
 
 module.exports = router;
