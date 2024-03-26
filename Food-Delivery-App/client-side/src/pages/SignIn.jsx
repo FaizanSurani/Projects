@@ -3,20 +3,39 @@ import { Link, useNavigate } from "react-router-dom";
 
 export default function SignIn() {
   const [formData, setFormData] = useState({
-    name: "",
+    email: "",
     password: "",
   });
 
-  const { name, password } = formData;
+  const { email, password } = formData;
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    navigate("/");
+    const response = await fetch("http://localhost:3000/loginuser", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+    });
+    const json = await response.json();
+    console.log(json);
+
+    if (!json.success) {
+      alert("Enter valid credentials");
+    }
+
+    if (json.success) {
+      navigate("/");
+    }
   };
 
   return (
@@ -26,15 +45,16 @@ export default function SignIn() {
       </div>
       <div className="flex flex-col justify-center items-center">
         <form onSubmit={handleSubmit} className="w-full max-w-md">
-          <label htmlFor="name" className="block text-gray-300 mt-3">
-            Name
+          <label htmlFor="email" className="block text-gray-300 mt-3">
+            Email Address
           </label>
           <input
-            className="w-full px-7 py-3  mb-3 rounded-md border border-gray-700  transition duration-150 ease-in-out hover:border-gray-600 active:border-gray-800 text-gray-300 bg-gray-800"
-            type="text"
-            placeholder="Name"
-            id="name"
-            value={name}
+            className="w-full px-7 py-3  mb-3 rounded-md border border-gray-700  transition duration-150 ease-in-out hover:border-gray-600 active:border-gray-800 bg-gray-800"
+            type="email"
+            placeholder="Email Address"
+            id="email"
+            autoComplete="email"
+            value={email}
             onChange={handleChange}
           />
           <br />
@@ -42,10 +62,11 @@ export default function SignIn() {
             Password
           </label>
           <input
-            className="w-full px-7 py-3 mb-3 rounded-md border border-gray-700  transition duration-150 ease-in-out hover:border-gray-600 active:border-gray-800 text-gray-300 bg-gray-800"
+            className="w-full px-7 py-3 mb-3 rounded-md border border-gray-700  transition duration-150 ease-in-out hover:border-gray-600 active:border-gray-800 bg-gray-800"
             type="password"
             placeholder="Password"
             id="password"
+            autoComplete="current-password"
             value={password}
             onChange={handleChange}
           />

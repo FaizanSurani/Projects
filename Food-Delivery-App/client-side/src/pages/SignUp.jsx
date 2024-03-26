@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, json, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function SignUp() {
   const [formData, setFormData] = useState({
@@ -33,10 +33,12 @@ export default function SignUp() {
     const json = await response.json();
     console.log(json);
 
-    if (json.success) {
-      navigate("/sign-up");
-    } else {
+    if (!json.success) {
       alert("Enter valid credentials");
+    }
+
+    if (json.success) {
+      navigate("/sign-in");
     }
   };
 
@@ -55,6 +57,7 @@ export default function SignUp() {
             type="text"
             placeholder="Name"
             id="name"
+            autoComplete="name"
             value={name}
             onChange={handleChange}
           />
@@ -63,10 +66,11 @@ export default function SignUp() {
             Email Address
           </label>
           <input
-            className="w-full px-7 py-3  mb-3 rounded-md border border-gray-700  transition duration-150 ease-in-out hover:border-gray-600 active:border-gray-800 text-gray-300 bg-gray-800"
+            className="w-full px-7 py-3  mb-3 rounded-md border border-gray-700  transition duration-150 ease-in-out hover:border-gray-600 active:border-gray-800  bg-gray-800"
             type="email"
             placeholder="Email Address"
             id="email"
+            autoComplete="email"
             value={email}
             onChange={handleChange}
           />
@@ -75,10 +79,11 @@ export default function SignUp() {
             Password
           </label>
           <input
-            className="w-full px-7 py-3  mb-3 rounded-md border border-gray-700  transition duration-150 ease-in-out hover:border-gray-600 active:border-gray-800 text-gray-300 bg-gray-800"
+            className="w-full px-7 py-3  mb-3 rounded-md border border-gray-700  transition duration-150 ease-in-out hover:border-gray-600 active:border-gray-800 bg-gray-800"
             type="password"
             placeholder="Password"
             id="password"
+            autoComplete="current-password"
             value={password}
             onChange={handleChange}
           />
@@ -87,7 +92,7 @@ export default function SignUp() {
             Address
           </label>
           <input
-            className="w-full px-7 py-3  mb-3 rounded-md border border-gray-700  transition duration-150 ease-in-out hover:border-gray-600 active:border-gray-800 text-gray-300 bg-gray-800"
+            className="w-full px-7 py-3  mb-3 rounded-md border border-gray-700  transition duration-150 ease-in-out hover:border-gray-600 active:border-gray-800 bg-gray-800"
             type="text"
             placeholder="Address"
             id="address"
