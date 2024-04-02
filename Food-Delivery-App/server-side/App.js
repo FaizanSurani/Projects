@@ -16,11 +16,8 @@ app.use((req, res, next) => {
 connectDB();
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
-
 app.use("/", require("./src/routes/userRoute"));
+app.use("/", require("./src/routes/displayData"));
 
 app.listen(PORT, () => {
   console.log(`Server listening at ${PORT}`);

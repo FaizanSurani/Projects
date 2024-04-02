@@ -13,9 +13,12 @@ const connectDB = async () => {
     await mongoose.connect(mongoURI);
 
     const db = mongoose.connection.db.collection("foodItems");
+    const itemsData = await db.find({}).toArray();
+    global.foodItems = itemsData;
 
-    const documents = await db.find({}).toArray();
-    // console.log(documents);
+    const foodCategory = mongoose.connection.db.collection("foodCategory");
+    const categoryData = await foodCategory.find({}).toArray();
+    global.foodCategory = categoryData;
   } catch (error) {
     console.error("Connection Failed", error.message);
   }
