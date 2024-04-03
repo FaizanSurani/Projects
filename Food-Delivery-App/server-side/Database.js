@@ -4,7 +4,7 @@ const mongoURI =
   "mongodb+srv://gofood:xnB6yeibJR8UHpo8@cluster0.wxwrxc2.mongodb.net/GoFood?retryWrites=true&w=majority&appName=Cluster0";
 
 mongoose.connection.on("open", () => {
-  console.log("Connected to Databasse Succesfully");
+  console.log("Connected to Database Succesfully");
 });
 mongoose.connection.on("error", (error) => console.log(error));
 
