@@ -6,6 +6,8 @@ export default function Card(props) {
     priceOptions = Object.keys(props.options);
   }
 
+  const handleCart = () => {};
+
   return (
     <div>
       <div className="w-72 max-h-[360px] bg-gray-900 border-2 border-gray-700 shadow-lg rounded-lg overflow-hidden my-8 text-white">
@@ -39,6 +41,12 @@ export default function Card(props) {
               Total Price
             </div>
           </div>
+          <hr />
+          <button
+            className="text-black bg-green-500  hover:bg-green-600 rounded-md px-3 py-2 text-sm font-medium mt-3 uppercase transition duration-150 ease-in-out"
+            onClick={handleCart}>
+            Add to Cart
+          </button>
         </div>
       </div>
     </div>

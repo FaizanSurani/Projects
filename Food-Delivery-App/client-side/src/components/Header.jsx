@@ -7,7 +7,7 @@ export default function Header() {
 
   const handleClick = () => {
     localStorage.removeItem("authToken");
-    navigate("/");
+    navigate("/sign-in");
   };
 
   return (
