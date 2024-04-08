@@ -68,7 +68,7 @@ export default function Home() {
                       onChange={(e) => {
                         setSearch(e.target.value);
                       }}
-                      className="text-white rounded h-12 w-[75%] px-4 border border-gray-300 mr-4 bg-gray-900"
+                      className="text-white rounded-md h-12 w-[75%] px-4 mr-4 bg-gray-900"
                     />
                   </div>
                   <img
@@ -102,10 +102,8 @@ export default function Home() {
                   .map((filterItems) => (
                     <div key={filterItems._id}>
                       <Card
-                        foodName={filterItems.name}
+                        foodItems={filterItems}
                         options={filterItems.options[0]}
-                        imgSrc={filterItems.img}
-                        description={filterItems.description}
                       />
                     </div>
                   ))}

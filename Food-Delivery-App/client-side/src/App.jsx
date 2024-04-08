@@ -6,11 +6,11 @@ import SignUp from "./pages/SignUp";
 import ForgotPassword from "./pages/ForgotPassword";
 import Orders from "./pages/Orders";
 import Profile from "./pages/Profile";
-import { cartProvider } from "./components/ContextReducer";
+import { CartProvider } from "./components/ContextReducer";
 
 export default function App() {
   return (
-    <cartProvider>
+    <CartProvider>
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -21,6 +21,6 @@ export default function App() {
           <Route path="/profile" element={<Profile />} />
         </Routes>
       </Router>
-    </cartProvider>
+    </CartProvider>
   );
 }

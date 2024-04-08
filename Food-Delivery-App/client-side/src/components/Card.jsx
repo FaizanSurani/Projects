@@ -1,25 +1,51 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { useDispatchCart, useCart } from "./ContextReducer";
 
 export default function Card(props) {
+  let dispatch = useDispatchCart();
+  let data = useCart();
+  const priceRef = useRef();
+
   let priceOptions = [];
   if (props.options) {
     priceOptions = Object.keys(props.options);
   }
 
-  const handleCart = () => {};
+  const [qty, setQty] = useState(1);
+  const [size, setSize] = useState("");
+
+  const handleCart = async () => {
+    await dispatch({
+      type: "ADD",
+      id: props.foodItems._id,
+      name: props.foodItems.name,
+      price: finalPrice,
+      qty: qty,
+      size: size,
+    });
+    // console.log(data);
+  };
+
+  let finalPrice = qty * parseInt(props.options[size]);
+
+  useEffect(() => {
+    setSize(priceRef.current.value);
+  }, []);
 
   return (
     <div>
       <div className="w-72 max-h-[360px] bg-gray-900 border-2 border-gray-700 shadow-lg rounded-lg overflow-hidden my-8 text-white">
         <img
           className="w-full h-48 object-cover"
-          src={props.imgSrc}
+          src={props.foodItems.img}
           alt="Card Image"
         />
         <div className="p-6">
-          <h5 className="text-xl font-semibold ">{props.foodName}</h5>
+          <h5 className="text-xl font-semibold ">{props.foodItems.name}</h5>
           <div className="w-full container">
-            <select className="m-2 h-full bg-green-400 text-black rounded">
+            <select
+              className="m-2 h-full bg-green-400 text-black rounded"
+              onChange={(e) => setQty(e.target.value)}>
               {Array.from({ length: 6 }, (_, i) => {
                 return (
                   <option key={i + 1} value={i + 1}>
@@ -28,7 +54,10 @@ export default function Card(props) {
                 );
               })}
             </select>
-            <select className="m-2 h-full bg-green-400 text-black rounded">
+            <select
+              className="m-2 h-full bg-green-400 text-black rounded"
+              ref={priceRef}
+              onChange={(e) => setSize(e.target.value)}>
               {priceOptions.map((data) => {
                 return (
                   <option key={data} value={data}>
@@ -38,7 +67,7 @@ export default function Card(props) {
               })}
             </select>
             <div className="text-lg font-bold inline-block h-full">
-              Total Price
+              Rs. {finalPrice}/-
             </div>
           </div>
           <hr />
