@@ -49,7 +49,7 @@ export default function Header() {
                 </div>
               ) : (
                 <div className="mb-1 flex justify-center items-center">
-                  <div className="text-black hover:bg-black hover:text-white rounded-md px-3 py-2 text-sm font-medium">
+                  <div className="transition duration-150 ease-in-out text-black hover:bg-black hover:text-white rounded-md px-3 py-2 text-sm font-medium flex justify-center items-center cursor-pointer">
                     My Cart
                   </div>
                   <Link
