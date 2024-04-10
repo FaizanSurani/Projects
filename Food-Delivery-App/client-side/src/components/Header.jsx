@@ -1,8 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import src from "../assets/Food.png";
+import Modal from "../Modal";
+import Cart from "../pages/Cart";
+import { useCart } from "./ContextReducer";
+import Badge from "@mui/material/Badge";
+import { styled } from "@mui/material/styles";
+import IconButton from "@mui/material/IconButton";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+
+const StyledBadge = styled(Badge)(({ theme }) => ({
+  "& .MuiBadge-badge": {
+    right: -3,
+    top: 13,
+    border: `2px solid ${theme.palette.background.paper}`,
+    padding: "0 4px",
+  },
+}));
 
 export default function Header() {
+  const data = useCart();
+  const [cartView, setCartView] = useState(false);
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -49,9 +67,25 @@ export default function Header() {
                 </div>
               ) : (
                 <div className="mb-1 flex justify-center items-center">
-                  <div className="transition duration-150 ease-in-out text-black hover:bg-black hover:text-white rounded-md px-3 py-2 text-sm font-medium flex justify-center items-center cursor-pointer">
-                    My Cart
+                  <div
+                    className="ml-2 transition duration-150 ease-in-out rounded-full cursor-pointer"
+                    onClick={() => {
+                      setCartView(true);
+                    }}>
+                    <IconButton aria-label="cart">
+                      <StyledBadge badgeContent={data.length} color="secondary">
+                        <ShoppingCartIcon />
+                      </StyledBadge>
+                    </IconButton>
                   </div>
+                  {cartView ? (
+                    <Modal
+                      onClose={() => {
+                        setCartView(false);
+                      }}>
+                      <Cart />
+                    </Modal>
+                  ) : null}
                   <Link
                     to="/profile"
                     className="text-black  hover:bg-black hover:text-white rounded-md px-3 py-2 text-sm font-medium">

@@ -20,7 +20,6 @@ export default function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/cart" element={<Cart />} />
         </Routes>
       </Router>
     </CartProvider>
