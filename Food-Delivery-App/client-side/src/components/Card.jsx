@@ -15,6 +15,38 @@ export default function Card(props) {
   const [size, setSize] = useState("");
 
   const handleCart = async () => {
+    let food = [];
+
+    //Matching id of item present in cart with the id of item present in databse
+    for (const item of data) {
+      if (item.id === props.foodItems._id) {
+        food = item;
+        break;
+      }
+    }
+
+    if (food != []) {
+      // if the size of order is same then update it, else Add new item with updated size
+      if (food.size === size) {
+        await dispatch({
+          type: "UPDATE",
+          id: props.foodItems._id,
+          price: finalPrice,
+          qty: qty,
+        });
+        return;
+      } else if (food.size !== size) {
+        await dispatch({
+          type: "ADD",
+          id: props.foodItems._id,
+          name: props.foodItems.name,
+          price: finalPrice,
+          qty: qty,
+          size: size,
+        });
+        return;
+      }
+    }
     await dispatch({
       type: "ADD",
       id: props.foodItems._id,

@@ -19,7 +19,18 @@ const reducer = (state, action) => {
       ];
 
     case "UPDATE":
-      return [];
+      let arr = [...state];
+      arr.find((food, index) => {
+        if (food.id === action.id) {
+          arr[index] = {
+            ...food,
+            qty: parseInt(action.qty) + food.qty,
+            price: action.price + food.price,
+          };
+        }
+        return arr;
+      });
+      return arr;
 
     case "REMOVE":
       let newArr = [...state];
