@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import src from "../assets/Food.png";
 import Modal from "../Modal";
 import Cart from "../pages/Cart";
@@ -22,10 +22,17 @@ export default function Header() {
   const data = useCart();
   const [cartView, setCartView] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleClick = () => {
     localStorage.removeItem("authToken");
     navigate("/sign-in");
+  };
+
+  const pathMatchRoute = (route) => {
+    if (route === location.pathname) {
+      return true;
+    }
   };
 
   return (
@@ -40,12 +47,20 @@ export default function Header() {
                 </Link>
               </div>
               <ul className="flex mb-1 me-auto">
-                <li className="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium">
-                  <Link to="/">Home</Link>
+                <li
+                  className={`text-black cursor-pointer hover:bg-black hover:text-white rounded-md px-3 py-2 text-sm font-medium ${
+                    pathMatchRoute("/") && "bg-gray-900 text-white"
+                  }`}
+                  onClick={() => navigate("/")}>
+                  Home
                 </li>
                 {localStorage.getItem("authToken") ? (
-                  <li className="text-black hover:bg-black hover:text-white rounded-md px-3 py-2 text-sm font-medium">
-                    <Link to="/orders">Orders</Link>
+                  <li
+                    className={`text-black cursor-pointer hover:bg-black hover:text-white rounded-md px-3 py-2 text-sm font-medium ${
+                      pathMatchRoute("/orders") && "bg-gray-900 text-white"
+                    }`}
+                    onClick={() => navigate("/orders")}>
+                    Orders
                   </li>
                 ) : (
                   ""
@@ -86,11 +101,6 @@ export default function Header() {
                       <Cart />
                     </Modal>
                   ) : null}
-                  <Link
-                    to="/profile"
-                    className="text-black  hover:bg-black hover:text-white rounded-md px-3 py-2 text-sm font-medium">
-                    Profile
-                  </Link>
                   <div
                     type="button"
                     className="text-red-800 hover:bg-black hover:text-white rounded-md px-3 py-2 text-sm font-medium cursor-pointer transition duration-150 ease-in-out "

@@ -5,7 +5,6 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import ForgotPassword from "./pages/ForgotPassword";
 import Orders from "./pages/Orders";
-import Profile from "./pages/Profile";
 import { CartProvider } from "./components/ContextReducer";
 import Cart from "./pages/Cart";
 
@@ -19,7 +18,6 @@ export default function App() {
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/orders" element={<Orders />} />
-          <Route path="/profile" element={<Profile />} />
         </Routes>
       </Router>
     </CartProvider>
