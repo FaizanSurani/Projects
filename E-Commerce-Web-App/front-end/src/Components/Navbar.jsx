@@ -27,7 +27,7 @@ export default function Navbar() {
           <li
             onClick={() => setMenu("men")}
             className="flex justify-center items-center flex-col gap-1 cursor-pointer">
-            <Link>Men</Link>
+            <Link to="/men">Men</Link>
             {menu === "men" ? (
               <hr className="h-[3px] rounded-lg border-none bg-[#ff4141] w-[80%]" />
             ) : (
@@ -37,7 +37,7 @@ export default function Navbar() {
           <li
             onClick={() => setMenu("women")}
             className="flex justify-center items-center flex-col gap-1 cursor-pointer">
-            <Link>Women</Link>
+            <Link to="/women">Women</Link>
             {menu === "women" ? (
               <hr className="h-[3px] rounded-lg border-none bg-[#ff4141] w-[80%]" />
             ) : (
@@ -47,7 +47,7 @@ export default function Navbar() {
           <li
             onClick={() => setMenu("kids")}
             className="flex justify-center items-center flex-col gap-1 cursor-pointer">
-            <Link>Kids</Link>
+            <Link to="/kids">Kids</Link>
             {menu === "kids" ? (
               <hr className="h-[3px] rounded-lg border-none bg-[#ff4141] w-[80%]" />
             ) : (

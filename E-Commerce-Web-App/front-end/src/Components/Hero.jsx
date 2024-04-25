@@ -23,7 +23,7 @@ export default function Hero() {
         </div>
       </div>
       <div className="hero-right">
-        <img src={hero_image} alt="" />
+        <img className="h-full" src={hero_image} alt="" />
       </div>
     </div>
   );
