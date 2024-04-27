@@ -4,7 +4,6 @@ import Popular from "../Components/Popular";
 import Offers from "../Components/Offers";
 import NewCollections from "../Components/NewCollections";
 import NewsLetter from "../Components/NewsLetter";
-import Footer from "../Components/Footer";
 
 export default function Home() {
   return (
