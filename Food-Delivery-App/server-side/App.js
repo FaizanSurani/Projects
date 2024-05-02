@@ -1,5 +1,4 @@
 const express = require("express");
-
 const app = express();
 const PORT = 3000;
 const connectDB = require("./Database");
@@ -19,6 +18,7 @@ app.use(express.json());
 app.use("/", require("./src/routes/userRoute"));
 app.use("/", require("./src/routes/displayData"));
 app.use("/", require("./src/routes/orderData"));
+app.use("/", require("./src/routes/forgotPassword"));
 
 app.listen(PORT, () => {
   console.log(`Server listening at ${PORT}`);

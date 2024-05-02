@@ -26,7 +26,7 @@ export default function Header() {
 
   const handleClick = () => {
     localStorage.removeItem("authToken");
-    navigate("/sign-in");
+    navigate("/");
   };
 
   const pathMatchRoute = (route) => {
