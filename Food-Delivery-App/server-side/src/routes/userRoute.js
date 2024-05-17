@@ -86,4 +86,16 @@ router.post(
   }
 );
 
+var userData = {
+  name: "",
+  email: "",
+};
+
+router.put("/updateuser", async (req, res) => {
+  const { name, email } = req.body;
+
+  userData = { ...userData, name, email };
+  res.send(userData);
+});
+
 module.exports = router;
