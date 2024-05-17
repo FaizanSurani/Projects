@@ -8,7 +8,7 @@ export default function Orders() {
   useEffect(() => {
     const fetchMyOrder = async () => {
       console.log(localStorage.getItem("userEmail"));
-      await fetch("http://localhost:3000/myOrderData", {
+      await fetch("http://localhost:5001/myOrderData", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -19,7 +19,7 @@ export default function Home() {
   SwiperCore.use([EffectFade, Autoplay, Navigation, Pagination]);
 
   const loadData = async () => {
-    let res = await fetch("http://localhost:3000/foodData", {
+    let res = await fetch("http://localhost:5001/foodData", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

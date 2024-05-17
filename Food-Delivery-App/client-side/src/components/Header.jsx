@@ -8,6 +8,7 @@ import Badge from "@mui/material/Badge";
 import { styled } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { IoIosArrowDown } from "react-icons/io";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -21,8 +22,13 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 export default function Header() {
   const data = useCart();
   const [cartView, setCartView] = useState(false);
+  const [dropDown, setDropDown] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+
+  const toggleDropdown = () => {
+    setDropDown(!dropDown);
+  };
 
   const handleClick = () => {
     localStorage.removeItem("authToken");
@@ -37,7 +43,7 @@ export default function Header() {
 
   return (
     <>
-      <nav className="bg-green-700 shadow-lg">
+      <nav className="bg-green-700 shadow-lg overflow-visible">
         <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 text-black">
           <div className="relative flex h-16 items-center justify-between">
             <div className="flex flex-1 items-center justify-center sm:items-center sm:justify-start">
@@ -101,11 +107,48 @@ export default function Header() {
                       <Cart />
                     </Modal>
                   ) : null}
-                  <div
-                    type="button"
-                    className="text-red-800 hover:bg-black hover:text-white rounded-md px-3 py-2 text-sm font-medium cursor-pointer transition duration-150 ease-in-out "
-                    onClick={handleClick}>
-                    Log out
+                  <div className="relative" data-twe-dropdown-ref>
+                    <button
+                      className="text-black hover:bg-black hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                      type="button"
+                      id="dropdownMenuButton1"
+                      onClick={toggleDropdown}
+                      aria-expanded={dropDown ? "true" : "false"}
+                      data-twe-dropdown-toggle-ref
+                      data-twe-ripple-init
+                      data-twe-ripple-color="light">
+                      Profile
+                    </button>
+                    <ul
+                      className={`absolute z-[100] float-left m-auto py-2 ${
+                        dropDown ? "block" : "hidden"
+                      } max-w-max list-none overflow-hidden bg-white text-base shadow-lg data-[twe-dropdown-show]:block dark:bg-surface-dark`}
+                      aria-labelledby="dropdownMenuButton1"
+                      data-twe-dropdown-menu-ref>
+                      <li>
+                        <div
+                          className="cursor-pointer text-black hover:bg-black hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                          data-twe-dropdown-item-ref>
+                          <Link to="/profile">Profile</Link>
+                        </div>
+                      </li>
+                      <li>
+                        <div
+                          className=" cursor-pointer text-black hover:bg-black hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                          data-twe-dropdown-item-ref>
+                          <Link to="/admin-dashboard">Dashboard</Link>
+                        </div>
+                      </li>
+                      <li>
+                        <div
+                          className=" cursor-pointer text-red-700 hover:bg-red-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                          type="button"
+                          onClick={handleClick}
+                          data-twe-dropdown-item-ref>
+                          Logout
+                        </div>
+                      </li>
+                    </ul>
                   </div>
                 </div>
               )}
