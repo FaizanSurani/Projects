@@ -7,17 +7,16 @@ const User = require("../models/UserSchema.js");
 const JWT_SECRET_KEY = "Unknown";
 
 router.post("/forgotPassword", async (req, res) => {
+  const { email } = req.body;
   try {
     const user = await User.findOne({ email: email });
-
-    // if (!user) {
-    //   console.log("error");
-    //   return res.status(404).send({ message: "User not found!" });
-    // }
+    if (!user) {
+      return res.json({ message: "User not found!" });
+    }
 
     const data = {
       user: {
-        id: user.id,
+        id: user._id,
       },
     };
 
@@ -47,7 +46,7 @@ router.post("/forgotPassword", async (req, res) => {
       subject: "Reset Password",
       html: `<h1>Reset Your Password</h1>
     <p>Click on the following link to reset your password:</p>
-    <a href="http://localhost:5173/forgot-password/${token}">http://localhost:5173/forgot-password/${token}</a>
+    <a href="http://localhost:5173/reset-password/${token}">http://localhost:5173/reset-password/${token}</a>
     <p>The link will expire in 10 minutes.</p>
     <p>If you didn't request a password reset, please ignore this email.</p>`,
     };

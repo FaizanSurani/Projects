@@ -1,24 +1,26 @@
 const express = require("express");
 const app = express();
 const PORT = 5001;
+const cors = require("cors");
 const connectDB = require("./Database");
 
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
-});
+app.use(express.json());
+
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  })
+);
 
 connectDB();
-app.use(express.json());
 
 app.use("/", require("./src/routes/userRoute"));
 app.use("/", require("./src/routes/displayData"));
 app.use("/", require("./src/routes/orderData"));
 app.use("/", require("./src/routes/forgotPassword"));
+app.use("/", require("./src/routes/resetPassword"));
+app.use("/", require("./src/routes/userData"));
 
 app.listen(PORT, () => {
   console.log(`Server listening at ${PORT}`);

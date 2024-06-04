@@ -26,17 +26,16 @@ router.post(
     let secPassword = await bcrypt.hash(req.body.password, salt);
 
     try {
-      await user
-        .create({
-          name: req.body.name,
-          password: secPassword,
-          email: req.body.email,
-          location: req.body.location,
-        })
-        .then(res.json({ success: true }));
+      await user.create({
+        name: req.body.name,
+        password: secPassword,
+        email: req.body.email,
+        location: req.body.location,
+        role: req.body.role,
+      });
+      res.json({ success: true });
     } catch (error) {
-      console.log(error);
-      res.json({ success: false });
+      res.json({ error: "Duplicate Credentials!!" });
     }
   }
 );
@@ -86,16 +85,20 @@ router.post(
   }
 );
 
-var userData = {
-  name: "",
-  email: "",
-};
-
-router.put("/updateuser", async (req, res) => {
-  const { name, email } = req.body;
-
-  userData = { ...userData, name, email };
-  res.send(userData);
+router.post("/updateuser", async (req, res) => {
+  try {
+    let data = await user
+      .updateOne(
+        { $set: { name: req.body.name } },
+        { $set: { email: req.body.email } }
+      )
+      .then(() => {
+        res.json({ success: true });
+      });
+  } catch (error) {
+    console.log(error.message);
+    res.send("Server Error!", error.message);
+  }
 });
 
 module.exports = router;

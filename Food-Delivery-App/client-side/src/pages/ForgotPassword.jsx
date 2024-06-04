@@ -9,7 +9,7 @@ export default function ForgotPassword() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:3000/forgotPassword", {
+      const response = await fetch("http://localhost:5001/forgotPassword", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -20,9 +20,11 @@ export default function ForgotPassword() {
       if (!response.ok) {
         throw new Error("Failed to request password reset.");
       }
-
       const data = await response.json();
       setMessage(data.message);
+
+      alert("Please Check Your Email!!");
+
       navigate("/sign-in");
     } catch (error) {
       setMessage(error.message);

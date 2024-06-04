@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 
 export default function Profile() {
@@ -16,6 +16,24 @@ export default function Profile() {
       [e.target.id]: e.target.value,
     }));
   };
+
+  const userData = async () => {
+    const responseData = await fetch("http://localhost:5001/userData", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("authToken"),
+      },
+    });
+    body: JSON.stringify({
+      name: req.body.name,
+      email: req.body.email,
+    });
+  };
+
+  useEffect(() => {
+    userData();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -71,7 +89,6 @@ export default function Profile() {
               <button
                 onClick={(e) => {
                   e.preventDefault();
-                  // changeDetail && onSubmit();
                   setChangeDetail(!changeDetail);
                   console.log(changeDetail);
                 }}
@@ -81,7 +98,6 @@ export default function Profile() {
             ) : (
               <button
                 type="submit"
-                onSubmit={handleSubmit}
                 className="px-7 py-3 uppercase bg-blue-600 hover:bg-blue-700 transition duration-150 ease-in-out rounded mt-3 ">
                 Update Profile
               </button>
