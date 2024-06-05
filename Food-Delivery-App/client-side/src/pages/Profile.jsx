@@ -17,19 +17,19 @@ export default function Profile() {
     }));
   };
 
-  const userData = async () => {
-    const responseData = await fetch("http://localhost:5001/userData", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": localStorage.getItem("authToken"),
-      },
-      body: JSON.stringify({
-        name: req.body.name,
-        email: req.body.email,
-      }),
-    });
-  };
+  // const userData = async () => {
+  //   const responseData = await fetch("http://localhost:5001/userData", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       "x-access-token": localStorage.getItem("authToken"),
+  //     },
+  //     body: JSON.stringify({
+  //       name: req.body.name,
+  //       email: req.body.email,
+  //     }),
+  //   });
+  // };
 
   useEffect(() => {
     userData();

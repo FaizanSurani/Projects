@@ -24,7 +24,6 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  resetPasswordToken: String,
   date: {
     type: Date,
     default: Date.now,

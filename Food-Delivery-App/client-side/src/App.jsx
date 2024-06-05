@@ -22,10 +22,22 @@ export default function App() {
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/resetPassword/:token" element={<ResetPassword />} />
-          <Route element={<PrivateRoute />}>
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/orders" element={<Orders />} />
-          </Route>
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoute>
+                <Profile />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoute>
+                <Orders />
+              </PrivateRoute>
+            }
+          />
           <Route element={<PrivateRoute isAdmin={true} />}>
             <Route path="/admin-dashboard" element={<AdminDashboard />} />
           </Route>

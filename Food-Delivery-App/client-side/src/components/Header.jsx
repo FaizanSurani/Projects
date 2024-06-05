@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import src from "../assets/Food.png";
 import Modal from "../Modal";
@@ -21,7 +21,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 export default function Header() {
   const data = useCart();
-  const user = useUser();
+  // const { user, setUser } = useUser();
   const [cartView, setCartView] = useState(false);
   const [dropDown, setDropDown] = useState(false);
   const navigate = useNavigate();
@@ -133,15 +133,13 @@ export default function Header() {
                           <Link to="/profile">Profile</Link>
                         </div>
                       </li>
-                      {user.role === "admin" && (
-                        <li>
-                          <div
-                            className=" cursor-pointer text-black hover:bg-black hover:text-white rounded-md px-3 py-2 text-sm font-medium"
-                            data-twe-dropdown-item-ref>
-                            <Link to="/admin-dashboard">Dashboard</Link>
-                          </div>
-                        </li>
-                      )}
+                      <li>
+                        <div
+                          className=" cursor-pointer text-black hover:bg-black hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                          data-twe-dropdown-item-ref>
+                          <Link to="/admin-dashboard">Dashboard</Link>
+                        </div>
+                      </li>
                       <li>
                         <div
                           className=" cursor-pointer text-red-700 hover:bg-red-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"

@@ -1,20 +1,39 @@
-import { Navigate, Outlet } from "react-router-dom";
+import React, { useEffect } from "react";
 import { useUser } from "../components/UserContextReducer";
-import { useCart } from "../components/ContextReducer";
+import { Navigate } from "react-router";
 
-export default function PrivateRoute({ isAdmin, ...props }) {
-  const user = useUser();
-  const cart = useCart();
-  const isAuthenticated = cart.length > 0;
+export default function PrivateRoute({ children }) {
+  const { user, setUser } = useUser();
 
-  if (!isAuthenticated) {
-    return <Navigate to="/sign-in" />;
-  }
+  const getUser = async () => {
+    try {
+      const res = await fetch("http://localhost:3001/getUser", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+        body: JSON.stringify({ token: localStorage.getItem("authToken") }),
+      });
 
-  if (isAuthenticated) {
-    if (isAdmin === true && user.role !== "admin") {
-      return <Navigate to="/" />;
+      if (res.data.success) {
+        setUser(res.data.data);
+      } else {
+        <Navigate to="/sign-in" />;
+      }
+    } catch (error) {
+      console.log(error);
     }
-    return <Outlet {...props} />;
+  };
+
+  useEffect(() => {
+    if (!user) {
+      getUser();
+    }
+  }, [user]);
+
+  if (localStorage.getItem("authToken")) {
+    return children;
+  } else {
+    return <Navigate to="/sign-in" />;
   }
 }
