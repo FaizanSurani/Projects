@@ -21,6 +21,7 @@ app.use("/", require("./src/routes/orderData"));
 app.use("/", require("./src/routes/forgotPassword"));
 app.use("/", require("./src/routes/resetPassword"));
 app.use("/", require("./src/routes/userData"));
+app.use("/", require("./src/middlewares/authenticate"));
 
 app.listen(PORT, () => {
   console.log(`Server listening at ${PORT}`);

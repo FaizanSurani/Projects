@@ -24,10 +24,10 @@ export default function Profile() {
         "Content-Type": "application/json",
         "x-access-token": localStorage.getItem("authToken"),
       },
-    });
-    body: JSON.stringify({
-      name: req.body.name,
-      email: req.body.email,
+      body: JSON.stringify({
+        name: req.body.name,
+        email: req.body.email,
+      }),
     });
   };
 
@@ -37,7 +37,7 @@ export default function Profile() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const result = await fetch("http://localhost:5001/updateuser", {
+    const result = await fetch("http://localhost:5001/updateuser:id", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

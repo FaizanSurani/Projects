@@ -4,15 +4,17 @@ const { Schema } = mongoose;
 const userSchema = new Schema({
   name: {
     type: String,
-    required: true,
+    required: [true, "Please Enter Your Name!"],
+    unique: true,
   },
   location: {
     type: String,
-    required: true,
+    required: [true, "Please Enter Your Location!"],
   },
   email: {
     type: String,
-    required: true,
+    required: [true, "Please ENter Your Email!"],
+    unique: true,
   },
   role: {
     type: String,
@@ -22,12 +24,10 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  resetPasswordToken: String,
   date: {
     type: Date,
     default: Date.now,
-  },
-  role: {
-    type: String,
   },
 });
 

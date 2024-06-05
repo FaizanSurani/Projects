@@ -85,20 +85,21 @@ router.post(
   }
 );
 
-router.post("/updateuser", async (req, res) => {
-  try {
-    let data = await user
-      .updateOne(
-        { $set: { name: req.body.name } },
-        { $set: { email: req.body.email } }
-      )
-      .then(() => {
-        res.json({ success: true });
-      });
-  } catch (error) {
-    console.log(error.message);
-    res.send("Server Error!", error.message);
-  }
+router.put("/updateuser/:id", async (req, res) => {
+  let data = {
+    name: req.body.name,
+    email: req.body.email,
+  };
+
+  const userUpdate = await user.findByIdAndUpdate(req.user.id, data, {
+    new: true,
+    runValidators: true,
+  });
+
+  res.status(200).json({
+    success: true,
+    user,
+  });
 });
 
 module.exports = router;

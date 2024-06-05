@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 export default function ResetPassword() {
@@ -10,20 +10,19 @@ export default function ResetPassword() {
     e.preventDefault();
     try {
       const response = await fetch(
-        "http://localhost:5001/resetPassword" + token,
+        `http://localhost:5001/resetPassword/${token}`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
+          body: JSON.stringify({ password: password }),
         }
       );
 
       if (response.ok) {
         navigate("/sign-in");
-      }
-
-      if (!response.ok) {
+      } else {
         throw new Error("Failed to reset the password.");
       }
     } catch (error) {
@@ -41,7 +40,7 @@ export default function ResetPassword() {
         <h1>Reset Password</h1>
       </div>
       <div className="flex flex-col justify-center items-center">
-        <form className="w-full max-w-md">
+        <form className="w-full max-w-md" onSubmit={handleSubmit}>
           <label htmlFor="password" className="block text-gray-300 mt-3">
             New Password
           </label>

@@ -4,7 +4,7 @@ const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const User = require("../models/UserSchema.js");
-const JWT_SECRET_KEY = "Unknown";
+const JWT_SECRET_KEY = "Unknown String";
 
 router.post("/forgotPassword", async (req, res) => {
   const { email } = req.body;
@@ -21,11 +21,10 @@ router.post("/forgotPassword", async (req, res) => {
     };
 
     const token = jwt.sign(data, JWT_SECRET_KEY, {
-      expiresIn: "10m",
+      expiresIn: "1d",
     });
 
     user.resetPasswordToken = token;
-    // user.resetPasswordExpires = Date.now() + 600000;
 
     await user.save();
 
@@ -46,8 +45,8 @@ router.post("/forgotPassword", async (req, res) => {
       subject: "Reset Password",
       html: `<h1>Reset Your Password</h1>
     <p>Click on the following link to reset your password:</p>
-    <a href="http://localhost:5173/reset-password/${token}">http://localhost:5173/reset-password/${token}</a>
-    <p>The link will expire in 10 minutes.</p>
+    <a href="http://localhost:5173/resetPassword/${token}">http://localhost:5173/resetPassword/${token}</a>
+    <p>The link will expire in 1 Day</p>
     <p>If you didn't request a password reset, please ignore this email.</p>`,
     };
 

@@ -1,24 +1,43 @@
 const express = require("express");
 const router = express.Router();
 const JWT_SECRET_KEY = "Unknown String";
+const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const User = require("../models/UserSchema");
 
 router.post("/resetPassword/:token", async (req, res) => {
-  const { token } = req.body.token;
-  const { password } = req.body.password;
+  const { token } = req.params;
+  const { password } = req.body;
+
   try {
-    const decoded = await jwt.verify(token, JWT_SECRET_KEY);
-    const id = decoded.id;
+    const decoded = jwt.verify(token, JWT_SECRET_KEY);
+    console.log(decoded);
+    const userId = decoded.id;
 
-    const salt = await bcrypt.genSalt(10);
-    let secPassword = await bcrypt.hash(password, salt);
+    if (userId) {
+      const salt = await bcrypt.genSalt(10);
+      const secPassword = await bcrypt.hash(password, salt);
 
-    await User.findByIdAndUpdate({ _id: id }, { password: secPassword });
-    return res.json({ status: true, message: "Password has been Updated" });
-  } catch (error) {
-    console.log(error);
-    return res.json("Invalid Token");
+      const user = await User.findByIdAndUpdate(
+        userId,
+        {
+          $set: {
+            password: secPassword,
+          },
+        },
+        { new: true }
+      );
+
+      if (user) {
+        res.status(200).json({ message: "Password has been updated!" });
+      } else {
+        res.status(404).json({ message: "User not found" });
+      }
+    }
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "Something went wrong", error: err.message });
   }
 });
 
