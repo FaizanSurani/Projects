@@ -4,10 +4,7 @@ require("dotenv").config();
 
 const DBConnect = async () => {
   try {
-    await mongoose.connect(`${process.env.MONGOURI}`, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect(`${process.env.MONGOURI}`);
     console.log("Connection Established Succesfully!");
   } catch (error) {
     console.log(error);
