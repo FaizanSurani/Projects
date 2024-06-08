@@ -48,30 +48,39 @@ router.post(
 );
 
 router.post("/login", async (req, res) => {
-  const { email, password } = req.body;
+  try {
+    const { email, password } = req.body;
 
-  const userData = await User.findOne({ email });
-  if (!userData) {
-    return res
-      .status(400)
-      .json({ message: "Trying Logging with correct Credentials!" });
+    const userData = await User.findOne({ email });
+    if (!userData) {
+      return res
+        .status(400)
+        .json({ message: "Trying Logging with correct Credentials!" });
+    }
+
+    const validPassword = await bcrypt.compare(password, userData.password);
+    if (!validPassword) {
+      return res
+        .status(400)
+        .json({ message: "Trying Logging with correct Credentials!" });
+    }
+
+    const data = {
+      user: {
+        id: userData._id,
+        role: userData.role,
+      },
+    };
+
+    const authToken = jwt.sign(data, process.env.JWT_SECRET_KEY);
+    return res.status(200).json({
+      id: userData._id,
+      role: userData.role,
+      authToken: authToken,
+    });
+  } catch (error) {
+    return res.status(500).json({ message: error });
   }
-
-  const validPassword = await bcrypt.compare(password, userData.password);
-  if (!validPassword) {
-    return res
-      .status(400)
-      .json({ message: "Trying Logging with correct Credentials!" });
-  }
-
-  const data = {
-    user: {
-      id: User.id,
-    },
-  };
-
-  const authToken = jwt.sign(data, process.env.JWT_SECRET_KEY);
-  return res.status(200).json({ authToken: authToken });
 });
 
 module.exports = router;

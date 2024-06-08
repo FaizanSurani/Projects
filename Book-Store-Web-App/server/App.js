@@ -7,6 +7,7 @@ app.use(express.json());
 
 app.use("/api/v1", require("./routes/userRoutes"));
 app.use("/api/v1", require("./routes/userRoutes"));
+app.use("/api/v1", require("./routes/userData"));
 
 app.listen(process.env.PORT, () => {
   console.log(`Server Listening to ${process.env.PORT}`);
