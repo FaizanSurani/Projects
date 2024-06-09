@@ -29,4 +29,38 @@ router.post("/addBook", authentication, async (req, res) => {
   }
 });
 
+router.put("/updateBook", authentication, async (req, res) => {
+  try {
+    const { bookId } = req.headers;
+    const { url, title, author, price, description, language } = req.body;
+    console.log("UpdateBook Request Headers:", req.headers);
+    console.log("UpdateBook Request Body:", req.body);
+
+    await Books.findByIdAndUpdate(
+      bookId,
+      {
+        url,
+        title,
+        author,
+        price,
+        description,
+        language,
+      },
+      { new: true }
+    );
+    return res.status(200).json({ message: "Book Updated to Database" });
+  } catch (error) {
+    return res.status(500).json({ message: "Server Error!!" });
+  }
+});
+
+router.delete("/deleteBook", authentication, async (req, res) => {
+  try {
+    const { bookid } = req.headers;
+    await Books.findByIdAndDelete(bookid);
+    return res.status(200).json({ message: "Book Deleted from Database" });
+  } catch (error) {
+    return res.status(500).json({ message: "Server Error!!" });
+  }
+});
 module.exports = router;
