@@ -31,13 +31,13 @@ router.post("/addBook", authentication, async (req, res) => {
 
 router.put("/updateBook", authentication, async (req, res) => {
   try {
-    const { bookId } = req.headers;
+    const { bookid } = req.headers;
     const { url, title, author, price, description, language } = req.body;
     console.log("UpdateBook Request Headers:", req.headers);
     console.log("UpdateBook Request Body:", req.body);
 
-    await Books.findByIdAndUpdate(
-      bookId,
+    const updatedBook = await Books.findByIdAndUpdate(
+      bookid,
       {
         url,
         title,
@@ -48,7 +48,9 @@ router.put("/updateBook", authentication, async (req, res) => {
       },
       { new: true }
     );
-    return res.status(200).json({ message: "Book Updated to Database" });
+    return res
+      .status(200)
+      .json({ message: "Book Updated to Database", updatedBook });
   } catch (error) {
     return res.status(500).json({ message: "Server Error!!" });
   }
@@ -63,4 +65,5 @@ router.delete("/deleteBook", authentication, async (req, res) => {
     return res.status(500).json({ message: "Server Error!!" });
   }
 });
+
 module.exports = router;
