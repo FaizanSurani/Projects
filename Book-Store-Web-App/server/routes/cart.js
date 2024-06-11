@@ -42,7 +42,7 @@ router.get("/cartItems", authentication, async (req, res) => {
     const { id } = req.headers;
 
     const userData = await User.findById(id).populate("cart");
-    const cartItems = userData.cart;
+    const cartItems = userData.cart.reverse();
 
     return res.status(200).json({ data: cartItems });
   } catch (error) {
