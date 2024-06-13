@@ -20,15 +20,19 @@ export default function BookDetails() {
   return (
     <>
       {bookDetails && (
-        <div className="px-12 py-8 bg-zinc-900 flex gap-8">
-          <div className="bg-zinc-800 rounded p-4 h-[88vh] w-3/6 flex justify-center items-center">
-            <img className="h-[70vh]" src={bookDetails.url} alt="/" />
+        <div className="px-8 md:px-12 py-8 bg-zinc-900 flex md:flex-row flex-col gap-8">
+          <div className="bg-zinc-800 rounded p-4 h-[60vh] lg:h-[88vh] lg:w-3/6 w-full flex justify-center items-center">
+            <img
+              className="lg:h-[70vh] h-[50vh] rounded"
+              src={bookDetails.url}
+              alt="/"
+            />
           </div>
-          <div className="p-4 w-3/6">
+          <div className="p-4 lg:w-3/6 w-full">
             <h1 className="text-4xl text-zinc-300 font-semibold">
               {bookDetails.title}
             </h1>
-            <p className="text-zinc-400 mt-1">{bookDetails.author}</p>
+            <p className="text-zinc-400 mt-1">by {bookDetails.author}</p>
             <p className="text-zinc-500 mt-4 text-xl">
               {bookDetails.description}
             </p>
