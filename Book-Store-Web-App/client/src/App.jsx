@@ -8,6 +8,7 @@ import Footer from "./components/Footer";
 import Profile from "./pages/Profile";
 import AllBooks from "./pages/AllBooks";
 import Cart from "./pages/Cart";
+import BookDetails from "./components/BookDetails";
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/all-books" element={<AllBooks />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/view-book-details/:id" element={<BookDetails />} />
       </Routes>
       <Footer />
     </Router>

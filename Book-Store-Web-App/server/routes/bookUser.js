@@ -12,7 +12,7 @@ router.get("/getAllBooks", async (req, res) => {
 
 router.get("/getRecentBooks", async (req, res) => {
   try {
-    const book = await Books.find().sort({ createdAt: -1 }).limit(12);
+    const book = await Books.find().sort({ createdAt: -1 }).limit(8);
     return res.status(200).json({ data: book });
   } catch (error) {
     return res.status(500).json({ message: "Server Error!!" });
