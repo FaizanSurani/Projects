@@ -12,7 +12,7 @@ import BookDetails from "./components/BookDetails";
 
 export default function App() {
   return (
-    <Router>
+    <>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -24,6 +24,6 @@ export default function App() {
         <Route path="/view-book-details/:id" element={<BookDetails />} />
       </Routes>
       <Footer />
-    </Router>
+    </>
   );
 }

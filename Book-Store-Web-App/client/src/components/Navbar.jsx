@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaGripLines } from "react-icons/fa";
+import { AuthContext } from "./AuthContext";
 
 export default function Navbar() {
   const links = [
@@ -22,7 +23,12 @@ export default function Navbar() {
     },
   ];
 
+  const { isLoggedIn } = useContext(AuthContext);
   const [navOpen, setNavOpen] = useState("hidden");
+
+  if (isLoggedIn === false) {
+    links.splice(2, 2);
+  }
 
   return (
     <>

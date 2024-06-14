@@ -27,11 +27,13 @@ router.post(
       const existingUser = await User.findOne({ name: name });
       if (existingUser) {
         return res.status(400).json({ message: "User Already Exists!!" });
+        console.log("User Already Exists!!");
       }
 
       const existingEmail = await User.findOne({ email: email });
       if (existingEmail) {
         return res.status(400).json({ message: "Email Already in Use!!" });
+        console.log("Email Already Exists!!");
       }
 
       await User.create({
@@ -57,6 +59,7 @@ router.post("/login", async (req, res) => {
         .status(400)
         .json({ message: "Trying Logging with correct Credentials!" });
     }
+    console.log("Trying Logging with correct Credentials!");
 
     const validPassword = await bcrypt.compare(password, userData.password);
     if (!validPassword) {
@@ -64,6 +67,7 @@ router.post("/login", async (req, res) => {
         .status(400)
         .json({ message: "Trying Logging with correct Credentials!" });
     }
+    console.log("Trying Logging with correct Credentials!");
 
     const data = {
       user: {
