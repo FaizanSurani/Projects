@@ -32,7 +32,7 @@ export default function Register() {
         navigate("/login");
       }
     } catch (error) {
-      console.log(error);
+      alert(error.res.data.message);
     }
   };
 

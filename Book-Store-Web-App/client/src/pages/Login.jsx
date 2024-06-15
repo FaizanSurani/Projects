@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { AuthContext } from "../components/AuthContext";
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -10,6 +11,7 @@ export default function Login() {
 
   const { email, password } = formData;
   const navigate = useNavigate();
+  const { login, changeRole } = useContext(AuthContext);
 
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -25,11 +27,15 @@ export default function Login() {
           email,
           password,
         });
-        alert(res.data.message);
+        login();
+        changeRole(res.data.role);
+        localStorage.setItem("id", res.data.id);
+        localStorage.setItem("authToken", res.data.authToken);
+        localStorage.setItem("role", res.data.role);
         navigate("/");
       }
     } catch (error) {
-      console.log(error);
+      alert(error.res.data.message);
     }
   };
 

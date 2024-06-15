@@ -52,18 +52,22 @@ export default function Navbar() {
               </Link>
             ))}
           </div>
-          <div className="hidden md:flex gap-4">
-            <Link
-              to="/login"
-              className="px-4 py-1 border border-blue-500 rounded hover:bg-white hover:text-zinc-800 transition duration-150 ease-in-out">
-              Login
-            </Link>
-            <Link
-              to="/register"
-              className="px-4 py-1 bg-blue-500 rounded hover:bg-white hover:text-zinc-800 transition duration-150 ease-in-out">
-              Register
-            </Link>
-          </div>
+          {!isLoggedIn ? (
+            <div className="hidden md:flex gap-4">
+              <Link
+                to="/login"
+                className="px-4 py-1 border border-blue-500 rounded hover:bg-white hover:text-zinc-800 transition duration-150 ease-in-out">
+                Login
+              </Link>
+              <Link
+                to="/register"
+                className="px-4 py-1 bg-blue-500 rounded hover:bg-white hover:text-zinc-800 transition duration-150 ease-in-out">
+                Register
+              </Link>
+            </div>
+          ) : (
+            " "
+          )}
           <button
             className="md:hidden block text-white text-2xl hover:text-zinc-400"
             onClick={() =>
@@ -86,22 +90,32 @@ export default function Navbar() {
             {items.title}
           </Link>
         ))}
-        <Link
-          onClick={() =>
-            navOpen === "hidden" ? setNavOpen("block") : setNavOpen("hidden")
-          }
-          to="/login"
-          className={` ${navOpen} px-8 mb-8 py-2 border text-4xl text-white font-semibold border-blue-500 rounded hover:bg-white hover:text-zinc-800 transition duration-150 ease-in-out`}>
-          Login
-        </Link>
-        <Link
-          onClick={() =>
-            navOpen === "hidden" ? setNavOpen("block") : setNavOpen("hidden")
-          }
-          to="/register"
-          className={` ${navOpen} px-8 py-2 mb-8 text-4xl font-semibold  bg-blue-500 rounded hover:bg-white hover:text-zinc-800 transition duration-150 ease-in-out`}>
-          Register
-        </Link>
+        {isLoggedIn === false ? (
+          <>
+            <Link
+              onClick={() =>
+                navOpen === "hidden"
+                  ? setNavOpen("block")
+                  : setNavOpen("hidden")
+              }
+              to="/login"
+              className={` ${navOpen} px-8 mb-8 py-2 border text-4xl text-white font-semibold border-blue-500 rounded hover:bg-white hover:text-zinc-800 transition duration-150 ease-in-out`}>
+              Login
+            </Link>
+            <Link
+              onClick={() =>
+                navOpen === "hidden"
+                  ? setNavOpen("block")
+                  : setNavOpen("hidden")
+              }
+              to="/register"
+              className={` ${navOpen} px-8 py-2 mb-8 text-4xl font-semibold  bg-blue-500 rounded hover:bg-white hover:text-zinc-800 transition duration-150 ease-in-out`}>
+              Register
+            </Link>
+          </>
+        ) : (
+          ""
+        )}
       </div>
     </>
   );
