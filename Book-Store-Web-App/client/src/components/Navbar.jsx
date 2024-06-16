@@ -90,7 +90,7 @@ export default function Navbar() {
             {items.title}
           </Link>
         ))}
-        {isLoggedIn === false ? (
+        {!isLoggedIn ? (
           <>
             <Link
               onClick={() =>
