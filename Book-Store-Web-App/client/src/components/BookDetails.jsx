@@ -3,7 +3,8 @@ import { useParams } from "react-router";
 import Loader from "./Loader";
 import { GrLanguage } from "react-icons/gr";
 import axios from "axios";
-import { FaHeart, FaShoppingCart } from "react-icons/fa";
+import { FaEdit, FaHeart, FaShoppingCart } from "react-icons/fa";
+import { MdOutlineDelete } from "react-icons/md";
 import { AuthContext } from "./AuthContext";
 
 export default function BookDetails() {
@@ -11,6 +12,11 @@ export default function BookDetails() {
   const { isLoggedIn } = useContext(AuthContext);
   const { role } = useContext(AuthContext);
   const [bookDetails, setBookDetails] = useState("");
+  const headers = {
+    id: localStorage.getItem("id"),
+    authorization: `Bearer ${localStorage.getItem("authToken")}`,
+    bookid: id,
+  };
 
   useEffect(() => {
     const bookdetails = async () => {
@@ -19,6 +25,24 @@ export default function BookDetails() {
     };
     bookdetails();
   }, []);
+
+  const handleFav = async () => {
+    const res = await axios.put(
+      "http://localhost:5000/api/v1/addFavourites",
+      {},
+      { headers }
+    );
+    alert(res.data.message);
+  };
+
+  const handleCart = async () => {
+    const res = await axios.put(
+      "http://localhost:5000/api/v1/addItems",
+      {},
+      { headers }
+    );
+    alert(res.data.message);
+  };
 
   return (
     <>
@@ -31,13 +55,27 @@ export default function BookDetails() {
                 src={bookDetails.url}
                 alt="/"
               />
-              {isLoggedIn === true && (
-                <div className="flex flex-row lg:flex-col items-center justify-between lg:justify-start lg:mt-0 :mt-8">
-                  <button className="bg-white rounded-full text-3xl p-3 text-red-500">
+              {isLoggedIn === true && role === "user" && (
+                <div className="flex flex-col md:flex-row lg:flex-col items-center justify-between lg:justify-start lg:mt-0 mt-8">
+                  <button
+                    className="bg-white rounded lg:rounded-full text-4xl lg:text-3xl p-3 text-red-500 flex justify-center items-center"
+                    onClick={handleFav}>
                     <FaHeart />
                   </button>
-                  <button className="bg-white rounded lg:rounded-full text-4xl lg:text-3xl p-3 mt-0 lg:mt-8 text-blue-500 flex items-center justify-center">
+                  <button
+                    className="text-white rounded lg:rounded-full text-4xl lg:text-3xl p-3 mt-8 md:mt-0 lg:mt-8 bg-blue-500 flex items-center justify-center"
+                    onClick={handleCart}>
                     <FaShoppingCart />
+                  </button>
+                </div>
+              )}
+              {isLoggedIn === true && role === "admin" && (
+                <div className="flex flex-col md:flex-row lg:flex-col items-center justify-between lg:justify-start lg:mt-0 mt-8">
+                  <button className="bg-white rounded lg:rounded-full text-4xl lg:text-3xl p-3 flex justify-center items-center">
+                    <FaEdit />
+                  </button>
+                  <button className="text-red-500 md:mt-0 rounded lg:rounded-full text-4xl lg:text-3xl p-3 mt-8 lg:mt-8 bg-white flex items-center justify-center">
+                    <MdOutlineDelete />
                   </button>
                 </div>
               )}

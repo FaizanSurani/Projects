@@ -1,7 +1,23 @@
+import axios from "axios";
 import React from "react";
 import { Link } from "react-router-dom";
 
-export default function BookCard({ data }) {
+export default function BookCard({ data, favourite }) {
+  const headers = {
+    id: localStorage.getItem("id"),
+    authorization: `Bearer ${localStorage.getItem("authToken")}`,
+    bookid: data._id,
+  };
+
+  const handleRemoveFav = async () => {
+    const res = await axios.put(
+      "http://localhost:5000/api/v1/deleteFavourites",
+      {},
+      { headers }
+    );
+    alert(res.data.message);
+  };
+
   return (
     <>
       <Link to={`/view-book-details/${data._id}`}>
@@ -18,6 +34,13 @@ export default function BookCard({ data }) {
           </p>
         </div>
       </Link>
+      {favourite && (
+        <button
+          onClick={handleRemoveFav}
+          className="bg-yellow-50 mt-4 font-semibold px-4 py-2 rounded border border-yellow-500 text-yellow-500">
+          Remove
+        </button>
+      )}
     </>
   );
 }

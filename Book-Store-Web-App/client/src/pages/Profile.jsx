@@ -26,14 +26,14 @@ export default function Profile() {
 
   return (
     <>
-      <div className="bg-zinc-900 md:px-12 px-2 flex md:flex-row flex-col w-full h-screen py-8 gap-4 text-white">
+      <div className="bg-zinc-900 md:px-12 px-2 flex md:flex-row flex-col w-full py-8 gap-4 text-white">
         {!userData ? (
           <div className="flex justify-center items-center w-full h-[100%]">
             <Loader />
           </div>
         ) : (
           <>
-            <div className="w-full md:w-1/6">
+            <div className="w-full md:w-1/6 h-screen">
               <Sidebar data={userData} />
             </div>
             <div className="w-full md:w-5/6">
