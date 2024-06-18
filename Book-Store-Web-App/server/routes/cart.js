@@ -20,7 +20,7 @@ router.put("/addItems", authentication, async (req, res) => {
   }
 });
 
-router.put("/removeItems", authentication, async (req, res) => {
+router.put("/removeItems/:bookid", authentication, async (req, res) => {
   try {
     const { bookid, id } = req.headers;
 

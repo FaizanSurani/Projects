@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import BookCard from "./BookCard";
 
 export default function Favourites() {
-  const [fav, setFav] = useState();
+  const [fav, setFav] = useState([]);
   const headers = {
     id: localStorage.getItem("id"),
     authorization: `Bearer ${localStorage.getItem("authToken")}`,
