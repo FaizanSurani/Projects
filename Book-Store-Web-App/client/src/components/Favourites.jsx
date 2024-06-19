@@ -31,8 +31,12 @@ export default function Favourites() {
           ))}
       </div>
       {fav.length === 0 && (
-        <div className="w-full text-5xl font-semibold h-[50%] text-zinc-500 flex justify-center items-center">
-          No Favourite Books
+        <div className="h-[80vh] p-4 text-zinc-100">
+          <div className="h-[100%] flex flex-col items-center justify-center">
+            <h1 className="text-5xl font-semibold text-zinc-500 mb-8">
+              No Favourite Books
+            </h1>
+          </div>
         </div>
       )}
     </>

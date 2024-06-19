@@ -4,6 +4,7 @@ import { Outlet } from "react-router";
 import { AuthContext } from "../components/AuthContext";
 import axios from "axios";
 import Loader from "../components/Loader";
+import MobileNav from "../components/MobileNav";
 
 export default function Profile() {
   const { isLoggedIn } = useContext(AuthContext);
@@ -33,10 +34,11 @@ export default function Profile() {
           </div>
         ) : (
           <>
-            <div className="w-full md:w-1/6 h-screen">
+            <div className="w-full md:w-[30%] xl:w-1/6 h-auto lg:h-screen">
               <Sidebar data={userData} />
+              <MobileNav />
             </div>
-            <div className="w-full md:w-5/6">
+            <div className="w-full xl:w-5/6">
               <Outlet />
             </div>
           </>

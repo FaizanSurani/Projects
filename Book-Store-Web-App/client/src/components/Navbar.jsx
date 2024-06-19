@@ -21,13 +21,25 @@ export default function Navbar() {
       title: "Profile",
       link: "/profile",
     },
+    {
+      title: "Admin Profile",
+      link: "/profile",
+    },
   ];
 
-  const { isLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn, role } = useContext(AuthContext);
   const [navOpen, setNavOpen] = useState("hidden");
 
   if (isLoggedIn === false) {
     links.splice(2, 2);
+  }
+
+  if (isLoggedIn === true && role === "admin") {
+    links.splice(3, 1);
+  }
+
+  if (isLoggedIn === true && role === "user") {
+    links.splice(4, 1);
   }
 
   return (
