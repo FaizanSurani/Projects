@@ -26,6 +26,20 @@ export default function MobileNav() {
           </Link>
         </div>
       )}
+      {role === "admin" && (
+        <div className="w-full flex md:hidden justify-between items-center my-8">
+          <Link
+            to="/profile"
+            className="text-zinc-100 w-full font-semibold py-2 text-center hover:bg-zinc-900 rounded transition duration-150 ease-in-out">
+            All Orders
+          </Link>
+          <Link
+            to="/profile/addBooks"
+            className="text-zinc-100 w-full font-semibold py-2 text-center hover:bg-zinc-900 rounded transition duration-150 ease-in-out">
+            Add Books
+          </Link>
+        </div>
+      )}
     </>
   );
 }

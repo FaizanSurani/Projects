@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import Loader from "./Loader";
 import { GrLanguage } from "react-icons/gr";
 import axios from "axios";
 import { FaEdit, FaHeart, FaShoppingCart } from "react-icons/fa";
 import { MdOutlineDelete } from "react-icons/md";
 import { AuthContext } from "./AuthContext";
+import { Link } from "react-router-dom";
 
 export default function BookDetails() {
   const { id } = useParams();
@@ -17,6 +18,7 @@ export default function BookDetails() {
     authorization: `Bearer ${localStorage.getItem("authToken")}`,
     bookid: id,
   };
+  const navigate = useNavigate();
 
   useEffect(() => {
     const bookdetails = async () => {
@@ -42,6 +44,15 @@ export default function BookDetails() {
       { headers }
     );
     alert(res.data.message);
+  };
+
+  const handleDelete = async () => {
+    const response = await axios.delete(
+      "http://localhost:5000/api/v1/deleteBook",
+      { headers }
+    );
+    alert(response.data.message);
+    navigate("/all-books");
   };
 
   return (
@@ -71,11 +82,13 @@ export default function BookDetails() {
               )}
               {isLoggedIn === true && role === "admin" && (
                 <div className="flex flex-col md:flex-row lg:flex-col items-center justify-between lg:justify-start lg:mt-0 mt-8">
-                  <button className="bg-white rounded lg:rounded-full text-4xl lg:text-3xl p-3 flex justify-center items-center">
+                  <Link
+                    to={`/updateBooks/${id}`}
+                    className="bg-white rounded lg:rounded-full text-4xl lg:text-3xl p-3 flex justify-center items-center">
                     <FaEdit />
-                  </button>
+                  </Link>
                   <button className="text-red-500 md:mt-0 rounded lg:rounded-full text-4xl lg:text-3xl p-3 mt-8 lg:mt-8 bg-white flex items-center justify-center">
-                    <MdOutlineDelete />
+                    <MdOutlineDelete onClick={handleDelete} />
                   </button>
                 </div>
               )}

@@ -13,6 +13,9 @@ import Favourites from "./components/Favourites";
 import OrderHistory from "./components/OrderHistory";
 import Settings from "./components/Settings";
 import { AuthContext } from "./components/AuthContext";
+import AllOrders from "./pages/AllOrders";
+import AddBooks from "./pages/AddBooks";
+import UpdateBooks from "./pages/UpdateBooks";
 
 export default function App() {
   const { login, changeRole } = useContext(AuthContext);
@@ -37,13 +40,19 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />}>
-          {/* {role === "user" ?  */}
-          <Route index element={<Favourites />} />
+          {role === "user" ? (
+            <Route index element={<Favourites />} />
+          ) : (
+            <Route index element={<AllOrders />} />
+          )}
+          {role === "admin" && (
+            <Route path="/profile/addBooks" element={<AddBooks />} />
+          )}
           <Route path="/profile/orderHistory" element={<OrderHistory />} />
           <Route path="/profile/settings" element={<Settings />} />
-          {/* // : ""} */}
         </Route>
         <Route path="/all-books" element={<AllBooks />} />
+        <Route path="/updateBooks/:id" element={<UpdateBooks />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/view-book-details/:id" element={<BookDetails />} />
       </Routes>

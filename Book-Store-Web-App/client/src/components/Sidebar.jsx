@@ -45,7 +45,7 @@ export default function Sidebar({ data }) {
               All Orders
             </Link>
             <Link
-              to="/profile/addBook"
+              to="/profile/addBooks"
               className="text-zinc-100 w-full font-semibold py-2 mt-4 text-center hover:bg-zinc-900 rounded transition duration-150 ease-in-out">
               Add Book
             </Link>

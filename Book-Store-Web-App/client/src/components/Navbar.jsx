@@ -31,7 +31,7 @@ export default function Navbar() {
   const [navOpen, setNavOpen] = useState("hidden");
 
   if (isLoggedIn === false) {
-    links.splice(2, 2);
+    links.splice(2, 3);
   }
 
   if (isLoggedIn === true && role === "admin") {
