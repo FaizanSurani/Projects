@@ -9,8 +9,12 @@ router.post("/placeOrder", authentication, async (req, res) => {
     const { id } = req.headers;
     const { order } = req.body;
 
+    if (!order || !Array.isArray(order) || order.length === 0) {
+      return res.status(400).json({ message: "Invalid order data" });
+    }
+
     for (const orderData of order) {
-      const newOrder = await Order({ user: id, book: orderData._id });
+      const newOrder = new Order({ User: id, Books: orderData._id });
       const orderDb = await newOrder.save();
 
       await User.findByIdAndUpdate(id, {

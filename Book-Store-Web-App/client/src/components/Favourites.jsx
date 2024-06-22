@@ -18,7 +18,7 @@ export default function Favourites() {
       setFav(res.data.data);
     };
     fetch();
-  }, [fav]);
+  }, []);
 
   return (
     <>

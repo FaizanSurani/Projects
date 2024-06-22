@@ -22,14 +22,10 @@ router.put("/addItems", authentication, async (req, res) => {
 
 router.put("/removeItems/:bookid", authentication, async (req, res) => {
   try {
-    const { bookid, id } = req.headers;
+    const { bookid } = req.params;
+    const { id } = req.headers;
 
-    const userData = await User.findById(id);
-    const isBookinCart = userData.cart.includes(bookid);
-
-    if (isBookinCart) {
-      await User.findByIdAndUpdate(id, { $pull: { cart: bookid } });
-    }
+    await User.findByIdAndUpdate(id, { $pull: { cart: bookid } });
 
     return res.status(200).json({ message: "Book Removed from the Cart!!" });
   } catch (error) {

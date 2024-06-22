@@ -16,33 +16,33 @@ export default function Cart() {
 
   useEffect(() => {
     const fetch = async () => {
-      const res = await axios.get("http://localhost:5000/api/v1/cartItems", {
-        headers,
-      });
-      setCart(res.data.data);
+      try {
+        const res = await axios.get("http://localhost:5000/api/v1/cartItems", {
+          headers,
+        });
+        setCart(res.data.data);
+        console.log("Fetched cart items:", res.data.data);
+      } catch (error) {
+        console.error("Failed to fetch cart items", error);
+      }
     };
     fetch();
-  }, [cart]);
+  }, []);
 
   const deleteItem = async (bookid) => {
     const response = await axios.put(
-      `http://localhost:5000/api/v1/removeItems/:${bookid}`,
+      `http://localhost:5000/api/v1/removeItems/${bookid}`,
       {},
       { headers }
     );
     alert(response.data.message);
+    setCart(response.data.data);
   };
 
   useEffect(() => {
     if (cart && cart.length > 0) {
-      let total = 0;
-      let gst = 0.18;
-      cart.map((items) => {
-        total += items.price;
-        total *= gst;
-      });
+      const total = cart.reduce((sum, item) => sum + item.price, 0);
       setTotal(total);
-      total = 0;
     }
   }, [cart]);
 
@@ -50,19 +50,19 @@ export default function Cart() {
     try {
       const res = await axios.post(
         "http://localhost:5000/api/v1/placeOrder",
-        { orders: cart },
+        { order: cart },
         { headers }
       );
       alert(res.data.message);
       navigate("/profile/orderHistory");
     } catch (error) {
-      console.log(error);
+      console.log("Failed to place order:", error);
     }
   };
 
   return (
     <>
-      <div className="bg-zinc-900 px-12 h-screen py-8">
+      <div className="bg-zinc-900 px-12 h-auto md:h-screen py-8">
         {!cart && (
           <div className="w-full flex justify-center items-center h-[100%]">
             <Loader />
@@ -82,7 +82,7 @@ export default function Cart() {
             <h1 className="text-5xl text-center font-semibold text-zinc-500 mb-8">
               Your Cart
             </h1>
-            {cart.map((items, i) => {
+            {cart.map((items, i) => (
               <div
                 key={i}
                 className="w-full rounded p-4 my-4 flex flex-col md:flex-row bg-zinc-800 justify-between items-center">
@@ -107,37 +107,35 @@ export default function Cart() {
                 </div>
                 <div className="flex w-full md:w-auto mt-4 justify-between items-center">
                   <h2 className="text-zinc-100 text-3xl flex font-semibold">
-                    &x2089; {items.price}
+                    &#x20B9; {items.price}
                   </h2>
                   <button
-                    className="bg-red-100text-red-700 border border-red-700 rounded p-2 ms-12"
+                    className="bg-red-100 text-red-700 border border-red-700 rounded p-2 ms-12"
                     onClick={() => deleteItem(items._id)}>
                     <AiFillDelete />
                   </button>
                 </div>
-              </div>;
-            })}
-          </>
-        )}
-        {cart && cart.length > 0 && (
-          <div className="mt-4 flex w-full items-center justify-end">
-            <div className="p-4 bg-zinc-800 rounded">
-              <h1 className="text-3xl text-zinc-200 font-semibold">
-                Total Amount
-              </h1>
-              <div className="mt-3 flex justify-between items-center text-xl text-zinc-200">
-                <h2>{cart.length} books</h2>
-                <h2>&x2089; {total}</h2>
               </div>
-              <div className="w-[100%] mt-3">
-                <button
-                  className="bg-zinc-100 rounded px-4 py-2 flex justify-center w-full font-semibold hover:bg-zinc-200 transition duration-150 ease-in-out"
-                  onClick={placeOrder}>
-                  Place Your Order
-                </button>
+            ))}
+            <div className="mt-4 flex w-full items-center justify-end">
+              <div className="p-4 bg-zinc-800 rounded">
+                <h1 className="text-3xl text-zinc-200 font-semibold">
+                  Total Amount
+                </h1>
+                <div className="mt-3 flex justify-between items-center text-xl text-zinc-200">
+                  <h2>{cart.length} books</h2>
+                  <h2>&#x20B9;{total}</h2>
+                </div>
+                <div className="w-[100%] mt-3">
+                  <button
+                    className="bg-zinc-100 rounded px-4 py-2 flex justify-center w-full font-semibold hover:bg-zinc-200 transition duration-150 ease-in-out"
+                    onClick={placeOrder}>
+                    Place Your Order
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
+          </>
         )}
       </div>
     </>
