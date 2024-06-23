@@ -22,11 +22,9 @@ export default function OrderHistory() {
         );
         setOrders(res.data.data);
         setLoading(false);
-        console.log(res.data.data);
       } catch (error) {
         console.error("Failed to fetch orders", error);
         setLoading(false);
-        e;
       }
     };
     fetchOrders();
@@ -81,14 +79,14 @@ export default function OrderHistory() {
                   <Link
                     to={`/view-book-details/${item._id}`}
                     className="hover:text-blue-300">
-                    {item.title}
+                    {item.books.title}
                   </Link>
                 </div>
                 <div className="w-[45%]">
-                  <h1>{item.description} ...</h1>
+                  <h1>{item.books.description} ...</h1>
                 </div>
                 <div className="w-[9%]">
-                  <h1>&#8377; {item.price}</h1>
+                  <h1>&#8377; {item.books.price}</h1>
                 </div>
                 <div className="w-[16%]">
                   <h1

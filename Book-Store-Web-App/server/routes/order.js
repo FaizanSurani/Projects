@@ -14,7 +14,7 @@ router.post("/placeOrder", authentication, async (req, res) => {
     }
 
     for (const orderData of order) {
-      const newOrder = new Order({ User: id, Books: orderData._id });
+      const newOrder = new Order({ User: id, books: orderData._id });
       const orderDb = await newOrder.save();
 
       await User.findByIdAndUpdate(id, {
@@ -39,7 +39,7 @@ router.get("/orderHistory", authentication, async (req, res) => {
       populate: { path: "books" },
     });
 
-    const ordersData = await userData.orders.reverse();
+    const ordersData = userData.orders.reverse();
     return res.status(200).json({ data: ordersData });
   } catch (error) {
     return res.status(500).json({ message: "Server Error!!" });

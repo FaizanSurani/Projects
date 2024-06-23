@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const Books = new mongoose.Schema(
+const books = new mongoose.Schema(
   {
     url: {
       type: String,
@@ -30,4 +30,4 @@ const Books = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Books", Books);
+module.exports = mongoose.model("books", books);

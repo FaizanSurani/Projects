@@ -34,15 +34,22 @@ export default function AllOrders() {
 
   const handleSubmit = async (i) => {
     const id = orders[i]._id;
-    const res = await axios.put(
-      `http://localhost:5000/api/v1/updateStatus/${id}`,
-      values,
-      { headers }
-    );
-    alert(res.data.message);
+    try {
+      const res = await axios.put(
+        `http://localhost:5000/api/v1/updateStatus/${id}`,
+        values,
+        { headers }
+      );
+      alert(res.data.message);
+      setOrders((prevOrders) =>
+        prevOrders.map((order, index) =>
+          index === i ? { ...order, status: values.status } : order
+        )
+      );
+    } catch (error) {
+      console.error("Failed to update status:", error);
+    }
   };
-
-  orders && orders.splice(orders.length - 1, 1);
 
   return (
     <>
@@ -82,13 +89,15 @@ export default function AllOrders() {
             </div>
           </div>
           {orders.map((items, i) => (
-            <div className="bg-zinc-800 w-full rounded px-4 py-2 flex gap-2 hover:bg-zinc-900 hover:cursor-pointer transition duration-150 ease-in-out">
+            <div
+              key={i}
+              className="bg-zinc-800 w-full rounded px-4 py-2 flex gap-2 hover:bg-zinc-900 hover:cursor-pointer transition duration-150 ease-in-out">
               <div className="w-[3%]">
                 <h1 className="text-center">{i + 1}</h1>
               </div>
               <div className="w-[40%] md:w-[22%]">
                 <Link
-                  to={`/view-book-details/${items.books._id}`}
+                  to={`/view-book-details/${items._id}`}
                   className="hover:text-blue-300">
                   {items.books.title}
                 </Link>
@@ -97,7 +106,7 @@ export default function AllOrders() {
                 <h1>{items.books.description.slice(0, 50)} ...</h1>
               </div>
               <div className="w-[17%] md:w-[9%]">
-                <h1>&x2089; {items.books.price}</h1>
+                <h1>&#8377; {items.books.price}</h1>
               </div>
               <div className="w-[30%] md:w-[16%]">
                 <h1 className="font-semibold">

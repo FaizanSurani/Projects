@@ -41,18 +41,22 @@ export default function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />}>
           {role === "user" ? (
-            <Route index element={<Favourites />} />
+            <Route>
+              <Route index element={<Favourites />} />
+              <Route path="/profile/settings" element={<Settings />} />
+              <Route path="/profile/orderHistory" element={<OrderHistory />} />
+            </Route>
           ) : (
-            <Route index element={<AllOrders />} />
+            <Route>
+              <Route index element={<AllOrders />} />
+              <Route path="/profile/addBooks" element={<AddBooks />} />
+            </Route>
           )}
-          {role === "admin" && (
-            <Route path="/profile/addBooks" element={<AddBooks />} />
-          )}
-          <Route path="/profile/orderHistory" element={<OrderHistory />} />
-          <Route path="/profile/settings" element={<Settings />} />
         </Route>
+        {role === "admin" && (
+          <Route path="/updateBooks/:id" element={<UpdateBooks />} />
+        )}
         <Route path="/all-books" element={<AllBooks />} />
-        <Route path="/updateBooks/:id" element={<UpdateBooks />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/view-book-details/:id" element={<BookDetails />} />
       </Routes>
