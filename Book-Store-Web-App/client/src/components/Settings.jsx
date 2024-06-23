@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import Loader from "./Loader";
 
 export default function Settings() {
-  const [value, setValue] = useState({ address: "" });
-  const [profile, setProfile] = useState();
+  const [values, setValues] = useState({ name: "", email: "", address: "" });
+  // const [profile, setProfile] = useState();
   const headers = {
     id: localStorage.getItem("id"),
     authorization: `Bearer ${localStorage.getItem("authToken")}`,
@@ -15,20 +15,23 @@ export default function Settings() {
       const res = await axios.get("http://localhost:5000/api/v1/getUser", {
         headers,
       });
-      setProfile(res.data);
-      setValue({ address: res.data.address });
+      setValues({
+        name: res.data.name,
+        email: res.data.email,
+        address: res.data.address,
+      });
     };
     fetch();
   }, []);
 
   const handleChange = (e) => {
-    setValue({ ...value, [e.target.name]: e.target.value });
+    setValues({ ...values, [e.target.name]: e.target.value });
   };
 
   const changeDetails = async () => {
     const res = await axios.put(
-      "http://localhost:5000/api/v1/updateAddress",
-      value,
+      "http://localhost:5000/api/v1/updateProfile",
+      values,
       { headers }
     );
     alert(res.data.message);
@@ -36,28 +39,34 @@ export default function Settings() {
 
   return (
     <>
-      {!profile && (
+      {!values && (
         <div className="h-[100%] w-full flex justify-center items-center">
           <Loader />
         </div>
       )}
-      {profile && (
+      {values && (
         <div className="h-screen p-0 md:p-4 text-zinc-100">
           <h1 className="text-3xl md:text-5xl font-semibold text-zinc-500 mb-8">
             Settings
           </h1>
           <div className="flex gap-8">
-            <div>
+            <div className="flex flex-col">
               <label htmlFor="">Name</label>
-              <p className="p-2 rounded bg-zinc-800 mt-2 font-semibold">
-                {profile.name}
-              </p>
+              <input
+                className="p-2 rounded bg-zinc-800 mt-2 font-semibold"
+                name="name"
+                value={values.name}
+                onChange={handleChange}
+              />
             </div>
-            <div>
+            <div className="flex flex-col">
               <label htmlFor="">Email</label>
-              <p className="p-2 rounded bg-zinc-800 mt-2 font-semibold">
-                {profile.email}
-              </p>
+              <input
+                className="p-2 rounded bg-zinc-800 mt-2 font-semibold"
+                name="email"
+                value={values.email}
+                onChange={handleChange}
+              />
             </div>
           </div>
           <div className="mt-4 flex flex-col">
@@ -67,7 +76,7 @@ export default function Settings() {
               placeholder="Address"
               name="address"
               rows="5"
-              value={value.address}
+              value={values.address}
               onChange={handleChange}
             />
           </div>

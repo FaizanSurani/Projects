@@ -12,6 +12,7 @@ export default function AllOrders() {
   const [values, setValues] = useState({ status: "" });
   const [userDiv, setUserDiv] = useState("hidden");
   const [userDivData, setUserDivData] = useState();
+
   const headers = {
     id: localStorage.getItem("id"),
     authorization: `Bearer ${localStorage.getItem("authToken")}`,
@@ -24,6 +25,7 @@ export default function AllOrders() {
         { headers }
       );
       setOrders(response.data.data);
+      console.log(response.data.data);
     };
     fetch(orders);
   }, []);
@@ -97,7 +99,7 @@ export default function AllOrders() {
               </div>
               <div className="w-[40%] md:w-[22%]">
                 <Link
-                  to={`/view-book-details/${items._id}`}
+                  to={`/view-book-details/${items.books._id}`}
                   className="hover:text-blue-300">
                   {items.books.title}
                 </Link>

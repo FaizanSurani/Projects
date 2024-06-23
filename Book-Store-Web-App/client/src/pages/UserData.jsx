@@ -20,8 +20,8 @@ export default function UserData({ userDivData, userDiv, setUserDiv }) {
           </div>
           <div className="mt-2">
             <label htmlFor="">
-              Name
-              <span className="font-semibold">{userDivData.name}</span>
+              Username
+              <span className="font-semibold">{userDivData.username}</span>
             </label>
           </div>
           <div className="mt-4">

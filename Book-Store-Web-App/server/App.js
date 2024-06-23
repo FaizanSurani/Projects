@@ -9,7 +9,7 @@ app.use(express.json());
 
 app.use("/api/v1", require("./routes/userRoutes"));
 app.use("/api/v1", require("./routes/userData"));
-app.use("/api/v1", require("./routes/updateAddress"));
+app.use("/api/v1", require("./routes/updateProfile"));
 app.use("/api/v1", require("./routes/bookAdmin"));
 app.use("/api/v1", require("./routes/bookUser"));
 app.use("/api/v1", require("./routes/favouritesRoute"));

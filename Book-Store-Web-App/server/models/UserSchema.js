@@ -1,20 +1,20 @@
 const mongoose = require("mongoose");
 
-const User = new mongoose.Schema(
+const user = new mongoose.Schema(
   {
-    name: {
+    username: {
       type: String,
-      required: true["Enter Your Name!"],
+      required: [true, "Enter Your Name!"],
       unique: true,
     },
     email: {
       type: String,
-      required: true["Enter Your Email!"],
+      required: [true, "Enter Your Email!"],
       unique: true,
     },
     password: {
       type: String,
-      required: true["Enter Your Password!"],
+      required: [true, "Enter Your Password!"],
     },
     role: {
       type: String,
@@ -23,7 +23,7 @@ const User = new mongoose.Schema(
     },
     address: {
       type: String,
-      required: true["Enter Your Address!"],
+      required: [true, "Enter Your Address!"],
     },
     avatar: {
       type: String,
@@ -36,4 +36,4 @@ const User = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("User", User);
+module.exports = mongoose.model("user", user);

@@ -13,7 +13,7 @@ export default function Sidebar({ data }) {
         <div className="flex items-center flex-col justify-center">
           <img src={data.avatar} alt="/" className="h-[12vh]" />
           <p className="mt-3 text-xl text-zinc-100 font-semibold">
-            {data.name}
+            {data.username}
           </p>
           <p className="mt-1 text-normal text-zinc-300">{data.email}</p>
           <div className="w-full mt-4 h-[1px] bg-zinc-500 hidden xl:block"></div>

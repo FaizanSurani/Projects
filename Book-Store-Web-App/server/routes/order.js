@@ -50,7 +50,7 @@ router.get("/allOrders", authentication, async (req, res) => {
   try {
     const usersOrder = await Order.find()
       .populate({ path: "books" })
-      .populate({ path: "name" })
+      .populate({ path: "user" })
       .sort({ createdAt: -1 });
 
     return res.status(200).json({ data: usersOrder });

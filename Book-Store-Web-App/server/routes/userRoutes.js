@@ -8,12 +8,12 @@ const { validationResult, body } = require("express-validator");
 router.post(
   "/sign-up",
   [
-    body("name").isLength({ min: 6 }),
+    body("username").isLength({ min: 6 }),
     body("email").isEmail(),
     body("password").isLength({ min: 6 }),
   ],
   async (req, res) => {
-    const { name, email, password, address } = req.body;
+    const { username, email, password, address } = req.body;
     const result = validationResult(req);
 
     if (!result.isEmpty()) {
@@ -24,20 +24,18 @@ router.post(
     const secPassword = await bcrypt.hash(password, salt);
 
     try {
-      const existingUser = await User.findOne({ name: name });
+      const existingUser = await User.findOne({ username: username });
       if (existingUser) {
         return res.status(400).json({ message: "User Already Exists!!" });
-        console.log("User Already Exists!!");
       }
 
       const existingEmail = await User.findOne({ email: email });
       if (existingEmail) {
         return res.status(400).json({ message: "Email Already in Use!!" });
-        console.log("Email Already Exists!!");
       }
 
       await User.create({
-        name: name,
+        username: username,
         email: email,
         password: secPassword,
         address: address,

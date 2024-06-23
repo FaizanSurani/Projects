@@ -77,13 +77,13 @@ export default function OrderHistory() {
                 </div>
                 <div className="w-[22%]">
                   <Link
-                    to={`/view-book-details/${item._id}`}
+                    to={`/view-book-details/${item.books._id}`}
                     className="hover:text-blue-300">
                     {item.books.title}
                   </Link>
                 </div>
                 <div className="w-[45%]">
-                  <h1>{item.books.description} ...</h1>
+                  <h1>{item.books.description.slice(0, 50)} ...</h1>
                 </div>
                 <div className="w-[9%]">
                   <h1>&#8377; {item.books.price}</h1>

@@ -4,13 +4,13 @@ import { Link, useNavigate } from "react-router-dom";
 
 export default function Register() {
   const [formData, setFormData] = useState({
-    name: "",
+    username: "",
     email: "",
     password: "",
     address: "",
   });
 
-  const { name, email, password, address } = formData;
+  const { username, email, password, address } = formData;
   const navigate = useNavigate();
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -19,20 +19,26 @@ export default function Register() {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (name === "" || email === "" || password === "" || address === "") {
+      if (
+        username === "" ||
+        email === "" ||
+        password === "" ||
+        address === ""
+      ) {
         alert("All fields are necessary");
       } else {
         const res = await axios.post("http://localhost:5000/api/v1/sign-up", {
-          name,
+          username,
           email,
           password,
           address,
         });
         alert(res.data.message);
+        console.log(res);
         navigate("/login");
       }
     } catch (error) {
-      alert(error.res.data.message);
+      alert(error);
     }
   };
 
@@ -46,12 +52,12 @@ export default function Register() {
           <div className="mt-4">
             <div>
               <label htmlFor="username" className="text-zinc-400">
-                Name
+                Username
               </label>
               <input
                 type="text"
-                name="name"
-                value={name}
+                name="username"
+                value={username}
                 className="w-full bg-zinc-900 mt-2 text-zinc-100 p-2 outline-none"
                 onChange={onChange}
                 required
