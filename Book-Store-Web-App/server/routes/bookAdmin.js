@@ -1,13 +1,13 @@
 const router = require("express").Router();
-const User = require("../models/UserSchema");
-const Books = require("../models/BookSchema");
+const user = require("../models/UserSchema");
+const books = require("../models/BookSchema");
 const { authentication } = require("./auth");
 
 router.post("/addBook", authentication, async (req, res) => {
   try {
     const { id } = req.headers;
     const { url, title, author, price, description, language } = req.body;
-    const verify = await User.findById(id);
+    const verify = await user.findById(id);
 
     if (verify.role !== "admin") {
       return res
@@ -15,7 +15,7 @@ router.post("/addBook", authentication, async (req, res) => {
         .json({ message: "You do not have access to this functionality!!" });
     }
 
-    await Books.create({
+    await books.create({
       url: url,
       title: title,
       author: author,
@@ -36,7 +36,7 @@ router.put("/updateBook", authentication, async (req, res) => {
     console.log("UpdateBook Request Headers:", req.headers);
     console.log("UpdateBook Request Body:", req.body);
 
-    const updatedBook = await Books.findByIdAndUpdate(
+    const updatedBook = await books.findByIdAndUpdate(
       bookid,
       {
         url,
@@ -59,7 +59,7 @@ router.put("/updateBook", authentication, async (req, res) => {
 router.delete("/deleteBook", authentication, async (req, res) => {
   try {
     const { bookid } = req.headers;
-    await Books.findByIdAndDelete(bookid);
+    await books.findByIdAndDelete(bookid);
     return res.status(200).json({ message: "Book Deleted from Database" });
   } catch (error) {
     return res.status(500).json({ message: "Server Error!!" });

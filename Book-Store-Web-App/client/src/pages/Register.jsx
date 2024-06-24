@@ -94,7 +94,6 @@ export default function Register() {
                 Address
               </label>
               <textarea
-                type="text"
                 name="address"
                 value={address}
                 rows="5"

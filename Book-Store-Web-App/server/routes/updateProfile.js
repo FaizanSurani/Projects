@@ -1,4 +1,4 @@
-const User = require("../models/UserSchema");
+const user = require("../models/UserSchema");
 const { authentication } = require("./auth");
 
 const router = require("express").Router();
@@ -8,7 +8,7 @@ router.put("/updateProfile", authentication, async (req, res) => {
     const { id } = req.headers;
     const { username, email, address } = req.body;
 
-    await User.findByIdAndUpdate(id, {
+    await user.findByIdAndUpdate(id, {
       username: username,
       email: email,
       address: address,

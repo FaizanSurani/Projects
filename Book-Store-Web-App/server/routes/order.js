@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const Order = require("../models/OrdersSchema");
-const Books = require("../models/BookSchema");
-const User = require("../models/UserSchema");
+const books = require("../models/BookSchema");
+const user = require("../models/UserSchema");
 const { authentication } = require("./auth");
 
 router.post("/placeOrder", authentication, async (req, res) => {
@@ -14,13 +14,13 @@ router.post("/placeOrder", authentication, async (req, res) => {
     }
 
     for (const orderData of order) {
-      const newOrder = new Order({ User: id, books: orderData._id });
+      const newOrder = new Order({ user: id, books: orderData._id });
       const orderDb = await newOrder.save();
 
-      await User.findByIdAndUpdate(id, {
+      await user.findByIdAndUpdate(id, {
         $push: { orders: orderDb._id },
       });
-      await User.findByIdAndUpdate(id, {
+      await user.findByIdAndUpdate(id, {
         $pull: { cart: orderData._id },
       });
     }
@@ -34,7 +34,7 @@ router.get("/orderHistory", authentication, async (req, res) => {
   try {
     const { id } = req.headers;
 
-    const userData = await User.findById(id).populate({
+    const userData = await user.findById(id).populate({
       path: "orders",
       populate: { path: "books" },
     });
