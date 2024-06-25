@@ -20,19 +20,19 @@ export default function UserData({ userDivData, userDiv, setUserDiv }) {
           </div>
           <div className="mt-2">
             <label htmlFor="">
-              Username
+              Username:
               <span className="font-semibold">{userDivData.username}</span>
             </label>
           </div>
           <div className="mt-4">
             <label htmlFor="">
-              Email
+              Email:
               <span className="font-semibold">{userDivData.email}</span>
             </label>
           </div>
           <div className="mt-4">
             <label htmlFor="">
-              Address
+              Address:
               <span className="font-semibold">{userDivData.address}</span>
             </label>
           </div>

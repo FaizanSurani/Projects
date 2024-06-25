@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const { authentication } = require("./auth");
 const user = require("../models/UserSchema");
+const bcryptjs = require("bcryptjs");
 
 router.get("/getUser", authentication, async (req, res) => {
   try {

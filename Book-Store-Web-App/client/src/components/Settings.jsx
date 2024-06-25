@@ -3,8 +3,12 @@ import React, { useEffect, useState } from "react";
 import Loader from "./Loader";
 
 export default function Settings() {
-  const [values, setValues] = useState({ name: "", email: "", address: "" });
-  // const [profile, setProfile] = useState();
+  const [values, setValues] = useState({
+    username: "",
+    email: "",
+    address: "",
+  });
+
   const headers = {
     id: localStorage.getItem("id"),
     authorization: `Bearer ${localStorage.getItem("authToken")}`,
@@ -16,7 +20,7 @@ export default function Settings() {
         headers,
       });
       setValues({
-        name: res.data.name,
+        username: res.data.username,
         email: res.data.email,
         address: res.data.address,
       });
@@ -51,11 +55,11 @@ export default function Settings() {
           </h1>
           <div className="flex gap-8">
             <div className="flex flex-col">
-              <label htmlFor="">Name</label>
+              <label htmlFor="">Username</label>
               <input
                 className="p-2 rounded bg-zinc-800 mt-2 font-semibold"
                 name="name"
-                value={values.name}
+                value={values.username}
                 onChange={handleChange}
               />
             </div>
@@ -65,6 +69,15 @@ export default function Settings() {
                 className="p-2 rounded bg-zinc-800 mt-2 font-semibold"
                 name="email"
                 value={values.email}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="flex flex-col">
+              <label htmlFor="">Password</label>
+              <input
+                className="p-2 rounded bg-zinc-800 mt-2 font-semibold"
+                name="password"
+                type="password"
                 onChange={handleChange}
               />
             </div>

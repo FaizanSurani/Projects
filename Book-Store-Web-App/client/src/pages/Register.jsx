@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -9,6 +10,7 @@ export default function Register() {
     password: "",
     address: "",
   });
+  const [showPassword, setShowPassword] = useState(false);
 
   const { username, email, password, address } = formData;
   const navigate = useNavigate();
@@ -80,14 +82,25 @@ export default function Register() {
               <label htmlFor="password" className="text-zinc-400">
                 Password
               </label>
-              <input
-                type="password"
-                name="password"
-                value={password}
-                className="w-full bg-zinc-900 mt-2 text-zinc-100 p-2 outline-none"
-                onChange={onChange}
-                required
-              />
+              <div className="flex gap-2 items-center">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  value={password}
+                  className="w-full bg-zinc-900 mt-2 text-zinc-100 p-2 outline-none"
+                  onChange={onChange}
+                  required
+                />
+                <div
+                  className="cursor-pointer mt-2"
+                  onClick={() => setShowPassword(!showPassword)}>
+                  {showPassword ? (
+                    <IoEyeOutline className="text-white h-7 w-7" />
+                  ) : (
+                    <IoEyeOffOutline className="text-white h-7 w-7" />
+                  )}
+                </div>
+              </div>
             </div>
             <div className="mt-4">
               <label htmlFor="address" className="text-zinc-400">
