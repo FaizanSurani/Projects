@@ -93,12 +93,18 @@ export default function Login() {
           <p className="flex mt-4 justify-center items-center text-zinc-200 font-semibold">
             Or
           </p>
+
           <p className="flex mt-4 justify-center items-center text-zinc-500 font-semibold">
             Don't have an account? &nbsp;
             <Link to="/register" className="hover:text-blue-500">
               <u>Register</u>
             </Link>
           </p>
+          <Link
+            to="/forgot-password"
+            className="flex mt-4 justify-center items-center text-zinc-500 font-semibold">
+            <u>Forgot Password?</u>
+          </Link>
         </form>
       </div>
     </>

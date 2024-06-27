@@ -58,7 +58,6 @@ router.post("/login", async (req, res) => {
         .status(400)
         .json({ message: "Trying Logging with correct Credentials!" });
     }
-    console.log("Trying Logging with correct Credentials!");
 
     const validPassword = await bcrypt.compare(password, userData.password);
     if (!validPassword) {
@@ -66,7 +65,6 @@ router.post("/login", async (req, res) => {
         .status(400)
         .json({ message: "Trying Logging with correct Credentials!" });
     }
-    console.log("Trying Logging with correct Credentials!");
 
     const data = {
       user: {

@@ -16,10 +16,12 @@ import { AuthContext } from "./components/AuthContext";
 import AllOrders from "./pages/AllOrders";
 import AddBooks from "./pages/AddBooks";
 import UpdateBooks from "./pages/UpdateBooks";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 export default function App() {
   const { login, changeRole } = useContext(AuthContext);
-  const { role } = useContext(AuthContext);
+  const { isLoggedIn, role } = useContext(AuthContext);
 
   useEffect(() => {
     if (
@@ -39,20 +41,29 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/profile" element={<Profile />}>
-          {role === "user" ? (
-            <Route>
-              <Route index element={<Favourites />} />
-              <Route path="/profile/settings" element={<Settings />} />
-              <Route path="/profile/orderHistory" element={<OrderHistory />} />
-            </Route>
-          ) : (
-            <Route>
-              <Route index element={<AllOrders />} />
-              <Route path="/profile/addBooks" element={<AddBooks />} />
-            </Route>
-          )}
-        </Route>
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        {isLoggedIn ? (
+          <Route path="/profile" element={<Profile />}>
+            {role === "user" ? (
+              <Route>
+                <Route index element={<Favourites />} />
+                <Route path="/profile/settings" element={<Settings />} />
+                <Route
+                  path="/profile/orderHistory"
+                  element={<OrderHistory />}
+                />
+              </Route>
+            ) : (
+              <Route>
+                <Route index element={<AllOrders />} />
+                <Route path="/profile/addBooks" element={<AddBooks />} />
+              </Route>
+            )}
+          </Route>
+        ) : (
+          ""
+        )}
         {role === "admin" && (
           <Route path="/updateBooks/:id" element={<UpdateBooks />} />
         )}
