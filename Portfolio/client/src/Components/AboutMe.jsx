@@ -1,5 +1,6 @@
 import React from "react";
 import { ABOUT_TEXT } from "../assets";
+import { motion } from "framer-motion";
 
 export const AboutMe = () => {
   return (
@@ -10,11 +11,15 @@ export const AboutMe = () => {
         </h1>
         <div className="flex flex-wrap">
           <div className="w-full lg:p-6">
-            <div className="w-full">
+            <motion.div
+              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 50 }}
+              transition={{ duration: 0.5 }}
+              className="w-full">
               <div className="flex justify-center lg:justify-start">
                 <p className="font-light tracking-tighter">{ABOUT_TEXT}</p>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>

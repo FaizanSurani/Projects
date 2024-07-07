@@ -1,16 +1,22 @@
 const mongoose = require("mongoose");
-
-const mongoURI =
-  "mongodb+srv://gofood:xnB6yeibJR8UHpo8@cluster0.wxwrxc2.mongodb.net/GoFood?retryWrites=true&w=majority&appName=Cluster0";
+require("dotenv").config();
 
 mongoose.connection.on("open", () => {
-  console.log("Connected to Database Succesfully");
+  console.log("Connected to Database Successfully");
 });
 mongoose.connection.on("error", (error) => console.log(error));
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(mongoURI);
+    if (!process.env.MONGO_URI) {
+      throw new Error("MONGO_URI environment variable is not defined");
+    }
+
+    console.log("MONGO_URI:", process.env.MONGO_URI);
+    await mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
 
     const db = mongoose.connection.db.collection("foodItems");
     const itemsData = await db.find({}).toArray();
@@ -19,6 +25,8 @@ const connectDB = async () => {
     const foodCategory = mongoose.connection.db.collection("foodCategory");
     const categoryData = await foodCategory.find({}).toArray();
     global.foodCategory = categoryData;
+
+    console.log("Database loaded successfully");
   } catch (error) {
     console.error("Connection Failed", error.message);
   }

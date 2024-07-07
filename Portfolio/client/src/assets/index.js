@@ -38,4 +38,5 @@ export const PROJECTS = [
 export const CONTACT = {
   phoneNo: "+91 9586767921",
   email: "suranifaizan52@gmail.com",
+  address: "Surendranagar, Gujarat, India",
 };
