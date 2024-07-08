@@ -8,7 +8,7 @@ import Badge from "@mui/material/Badge";
 import { styled } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { useUser } from "./UserContextReducer";
+import { AuthContext } from "./UserContextReducer";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -21,7 +21,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 export default function Header() {
   const data = useCart();
-  // const { user, setUser } = useUser();
+  const { login, isLoggedIn } = useContext(AuthContext);
   const [cartView, setCartView] = useState(false);
   const [dropDown, setDropDown] = useState(false);
   const navigate = useNavigate();
@@ -61,7 +61,7 @@ export default function Header() {
                   onClick={() => navigate("/")}>
                   Home
                 </li>
-                {localStorage.getItem("authToken") ? (
+                {isLoggedIn && (
                   <li
                     className={`text-black cursor-pointer hover:bg-black hover:text-white rounded-md px-3 py-2 text-sm font-medium ${
                       pathMatchRoute("/orders") && "bg-gray-900 text-white"
@@ -69,25 +69,9 @@ export default function Header() {
                     onClick={() => navigate("/orders")}>
                     Orders
                   </li>
-                ) : (
-                  ""
                 )}
               </ul>
-              {!localStorage.getItem("authToken") ? (
-                <div className="flex justify-center items-center mb-1">
-                  <Link
-                    to="/sign-in"
-                    className="text-black hover:bg-black hover:text-white rounded-md px-3 py-2 text-sm font-medium">
-                    Sign In
-                  </Link>
-
-                  <Link
-                    to="/sign-up"
-                    className="text-black hover:bg-black hover:text-white rounded-md px-3 py-2 text-sm font-medium">
-                    Sign Up
-                  </Link>
-                </div>
-              ) : (
+              {login ? (
                 <div className="mb-1 flex justify-center items-center">
                   <div
                     className="ml-2 transition duration-150 ease-in-out rounded-full cursor-pointer"
@@ -151,6 +135,20 @@ export default function Header() {
                       </li>
                     </ul>
                   </div>
+                </div>
+              ) : (
+                <div className="flex justify-center items-center mb-1">
+                  <Link
+                    to="/sign-in"
+                    className="text-black hover:bg-black hover:text-white rounded-md px-3 py-2 text-sm font-medium">
+                    Sign In
+                  </Link>
+
+                  <Link
+                    to="/sign-up"
+                    className="text-black hover:bg-black hover:text-white rounded-md px-3 py-2 text-sm font-medium">
+                    Sign Up
+                  </Link>
                 </div>
               )}
             </div>

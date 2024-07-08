@@ -1,15 +1,46 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useReducer, useState } from "react";
 
-const UserContextReducer = createContext();
+const initialState = {
+  isLoggedIn: false,
+  role: "user",
+};
 
-export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+const AuthContext = createContext(initialState);
+
+const authReducer = (state, action) => {
+  switch (action.type) {
+    case "LOGIN":
+      return { ...state, isLoggedIn: true };
+    case "LOGOUT":
+      return { ...state, isLoggedIn: false };
+    case "CHANGE_ROLE":
+      return { ...state, role: action.payload };
+    default:
+      return state;
+  }
+};
+
+const AuthProvider = ({ children }) => {
+  const [state, dispatch] = useReducer(authReducer, initialState);
+
+  const login = () => {
+    dispatch({ type: "LOGIN" });
+  };
+
+  const logout = () => {
+    dispatch({ type: "LOGOUT" });
+  };
+
+  const changeRole = (role) => {
+    dispatch({ type: "CHANGE_ROLE", payload: role });
+  };
 
   return (
-    <UserContextReducer.Provider value={user}>
+    <UserContextReducer.Provider
+      value={{ ...state, login, logout, changeRole }}>
       {children}
     </UserContextReducer.Provider>
   );
 };
-
-export const useUser = () => useContext(UserContextReducer);
+export { AuthContext, AuthProvider };
+export default AuthProvider;
