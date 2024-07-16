@@ -1,21 +1,28 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
 export default function ResetPassword() {
   const [values, setValues] = useState({ password: "" });
   const [showPassword, setShowPassword] = useState(false);
+  const { id } = useParams();
   const navigate = useNavigate();
 
+  const { password } = values;
   const onChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
   const onSubmit = async () => {
     try {
-      const response = await axios.put();
+      const response = await axios.put(
+        `http://localhost:5000/api/v1/resetPassword/${id}`,
+        { password }
+      );
+      alert(response.data.message);
+      navigate("/login");
     } catch (error) {
-      alert(error.message);
+      alert(error.response.data.message);
     }
   };
 

@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const User = require("../models/UserSchema");
 
-router.post("/resetPassword/:token", async (req, res) => {
+router.put("/resetPassword/:token", async (req, res) => {
   const { token } = req.params;
   const { password } = req.body;
 

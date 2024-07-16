@@ -1,19 +1,29 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 export default function ForgotPassword() {
   const [values, setValues] = useState({ email: "" });
   const navigate = useNavigate();
 
+  const { email } = values;
   const onChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
-  const onSubmit = async () => {
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    if (email === "") {
+      alert("All fields are necessary");
+    }
     try {
-      const response = await axios.post();
+      const response = await axios.post(
+        "http://localhost:5000/api/v1/forgotPassword",
+        { email }
+      );
+      alert(response.data.message);
+      navigate("/login");
     } catch (error) {
-      alert(error.message);
+      alert(error.response.data.message);
     }
   };
 

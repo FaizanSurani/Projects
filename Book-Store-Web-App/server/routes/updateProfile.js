@@ -9,13 +9,13 @@ router.put("/updateProfile", authentication, async (req, res) => {
     const { id } = req.headers;
     const { username, email, password, address } = req.body;
 
-    const salt = await bcryptjs.genSalt(10);
-    const secPassword = await bcryptjs.hash(password, salt);
+    // const salt = await bcryptjs.genSalt(10);
+    // const secPassword = await bcryptjs.hash(password, salt);
 
     await user.findByIdAndUpdate(id, {
       username: username,
       email: email,
-      password: secPassword,
+      // password: secPassword,
       address: address,
     });
     return res.status(200).json({ message: "Profile Updated!!" });
