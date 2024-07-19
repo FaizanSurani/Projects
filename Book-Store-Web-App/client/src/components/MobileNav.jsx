@@ -24,6 +24,11 @@ export default function MobileNav() {
             className="text-zinc-100 w-full font-semibold py-2 text-center hover:bg-zinc-900 rounded transition duration-150 ease-in-out">
             Settings
           </Link>
+          <Link
+            to="/profile/recommendations"
+            className="text-zinc-100 w-full font-semibold py-2 text-center hover:bg-zinc-900 rounded transition duration-150 ease-in-out">
+            Recommended Books
+          </Link>
         </div>
       )}
       {role === "admin" && (

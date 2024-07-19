@@ -18,6 +18,7 @@ import AddBooks from "./pages/AddBooks";
 import UpdateBooks from "./pages/UpdateBooks";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import { RecommendedBooks } from "./components/RecommendedBooks";
 
 export default function App() {
   const { login, changeRole } = useContext(AuthContext);
@@ -52,6 +53,10 @@ export default function App() {
                 <Route
                   path="/profile/orderHistory"
                   element={<OrderHistory />}
+                />
+                <Route
+                  path="/profile/recommendation"
+                  element={<RecommendedBooks />}
                 />
               </Route>
             ) : (

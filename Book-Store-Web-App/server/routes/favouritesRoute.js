@@ -5,7 +5,7 @@ const { authentication } = require("./auth");
 router.put("/addFavourites", authentication, async (req, res) => {
   try {
     const { bookid, id } = req.headers;
-    const userData = await User.findById(id);
+    const userData = await user.findById(id);
 
     const isFav = userData.favourites.includes(bookid);
     if (isFav) {
