@@ -5,6 +5,10 @@ import { useNavigate } from "react-router-dom";
 export default function ForgotPassword() {
   const [values, setValues] = useState({ email: "" });
   const navigate = useNavigate();
+  const headers = {
+    id: localStorage.getItem("id"),
+    authorization: `Bearer ${localStorage.getItem("authToken")}`,
+  };
 
   const { email } = values;
   const onChange = (e) => {

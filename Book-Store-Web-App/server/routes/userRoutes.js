@@ -10,7 +10,7 @@ router.post(
   [
     body("username").isLength({ min: 6 }),
     body("email").isEmail(),
-    body("password").isLength({ min: 6 }),
+    body("password").isLength({ min: 4 }),
   ],
   async (req, res) => {
     const { username, email, password, address } = req.body;

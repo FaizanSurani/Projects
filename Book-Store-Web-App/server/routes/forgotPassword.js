@@ -14,9 +14,11 @@ router.post("/forgotPassword", async (req, res) => {
     }
     const data = {
       user: {
-        id: user._id,
+        id: userData.id,
       },
     };
+
+    console.log(data);
 
     const token = jwt.sign(data, process.env.JWT_SECRET_KEY, {
       expiresIn: "1d",
