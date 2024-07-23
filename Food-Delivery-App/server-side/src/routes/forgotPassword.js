@@ -9,14 +9,14 @@ const JWT_SECRET_KEY = "Unknown String";
 router.post("/forgotPassword", async (req, res) => {
   const { email } = req.body;
   try {
-    const user = await User.findOne({ email: email });
+    const user = await User.findOne({ email });
     if (!user) {
       return res.json({ message: "User not found!" });
     }
 
     const data = {
       user: {
-        id: user._id,
+        id: user.id,
       },
     };
 

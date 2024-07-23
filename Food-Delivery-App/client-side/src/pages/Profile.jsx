@@ -37,7 +37,7 @@ export default function Profile() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const result = await fetch("http://localhost:5001/updateuser:id", {
+    const result = await fetch("http://localhost:5001/updateuser/:id", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

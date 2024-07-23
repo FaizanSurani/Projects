@@ -12,27 +12,19 @@ router.put("/resetPassword/:token", async (req, res) => {
   try {
     const decoded = jwt.verify(token, JWT_SECRET_KEY);
     console.log(decoded);
-    const userId = decoded.id;
+    const userId = decoded.user.id;
 
     if (userId) {
       const salt = await bcrypt.genSalt(10);
       const secPassword = await bcrypt.hash(password, salt);
 
-      const user = await User.findByIdAndUpdate(
-        userId,
-        {
-          $set: {
-            password: secPassword,
-          },
-        },
-        { new: true }
-      );
+      const user = await User.findByIdAndUpdate(userId, {
+        password: secPassword,
+      });
 
-      if (user) {
-        res.status(200).json({ message: "Password has been updated!" });
-      } else {
-        res.status(404).json({ message: "User not found" });
-      }
+      res.status(200).json({ message: "Password has been updated!" });
+    } else {
+      res.status(404).json({ message: "User not found" });
     }
   } catch (err) {
     res

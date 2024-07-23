@@ -36,10 +36,9 @@ const AuthProvider = ({ children }) => {
   };
 
   return (
-    <UserContextReducer.Provider
-      value={{ ...state, login, logout, changeRole }}>
+    <AuthContext.Provider value={{ ...state, login, logout, changeRole }}>
       {children}
-    </UserContextReducer.Provider>
+    </AuthContext.Provider>
   );
 };
 export { AuthContext, AuthProvider };

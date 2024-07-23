@@ -5,7 +5,6 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import ForgotPassword from "./pages/ForgotPassword";
 import Orders from "./pages/Orders";
-import { CartProvider } from "./components/ContextReducer";
 import AdminDashboard from "./pages/AdminDashboard";
 import Profile from "./pages/Profile";
 import ResetPassword from "./pages/ResetPassword";
@@ -27,7 +26,7 @@ export default function App() {
   }, []);
 
   return (
-    <CartProvider>
+    <>
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -37,12 +36,20 @@ export default function App() {
           <Route path="/resetPassword/:token" element={<ResetPassword />} />
 
           {isLoggedIn && role === "user" ? (
-            <Route path="/orders" element={<Orders />} />
+            <Route>
+              <Route path="/orders" element={<Orders />} />
+              <Route path="/profile" element={<Profile />} />
+            </Route>
           ) : (
-            <Route path="/admin-dashboard" element={<AdminDashboard />} />
+            ""
+          )}
+          {isLoggedIn && role === "admin" ? (
+            <Route path="/dashboard" element={<AdminDashboard />} />
+          ) : (
+            ""
           )}
         </Routes>
       </Router>
-    </CartProvider>
+    </>
   );
 }

@@ -21,7 +21,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 export default function Header() {
   const data = useCart();
-  const { login, isLoggedIn } = useContext(AuthContext);
+  const { login, role } = useContext(AuthContext);
   const [cartView, setCartView] = useState(false);
   const [dropDown, setDropDown] = useState(false);
   const navigate = useNavigate();
@@ -32,6 +32,8 @@ export default function Header() {
   };
 
   const handleClick = () => {
+    localStorage.removeItem("id");
+    localStorage.removeItem("role");
     localStorage.removeItem("authToken");
     navigate("/");
   };
@@ -61,7 +63,7 @@ export default function Header() {
                   onClick={() => navigate("/")}>
                   Home
                 </li>
-                {isLoggedIn && (
+                {login && (
                   <li
                     className={`text-black cursor-pointer hover:bg-black hover:text-white rounded-md px-3 py-2 text-sm font-medium ${
                       pathMatchRoute("/orders") && "bg-gray-900 text-white"
@@ -118,11 +120,13 @@ export default function Header() {
                         </div>
                       </li>
                       <li>
-                        <div
-                          className=" cursor-pointer text-black hover:bg-black hover:text-white rounded-md px-3 py-2 text-sm font-medium"
-                          data-twe-dropdown-item-ref>
-                          <Link to="/admin-dashboard">Dashboard</Link>
-                        </div>
+                        {role === "admin" && (
+                          <div
+                            className=" cursor-pointer text-black hover:bg-black hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                            data-twe-dropdown-item-ref>
+                            <Link to="/dashboard">Dashboard</Link>
+                          </div>
+                        )}
                       </li>
                       <li>
                         <div

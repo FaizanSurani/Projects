@@ -12,7 +12,7 @@ export default function ResetPassword() {
       const response = await fetch(
         `http://localhost:5001/resetPassword/${token}`,
         {
-          method: "POST",
+          method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
@@ -22,6 +22,7 @@ export default function ResetPassword() {
 
       if (response.ok) {
         navigate("/sign-in");
+        response.data.message;
       } else {
         throw new Error("Failed to reset the password.");
       }
