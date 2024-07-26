@@ -3,9 +3,8 @@ const user = require("../models/UserSchema");
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-
-const jwtSecret = "Unknown String";
 const router = express.Router();
+require("dotenv").config();
 
 router.post(
   "/createuser",
@@ -76,7 +75,7 @@ router.post(
         },
       };
 
-      const authToken = jwt.sign(data, jwtSecret);
+      const authToken = jwt.sign(data, process.env.jwtSecret);
       return res.json({ success: true, authToken: authToken });
     } catch (error) {
       console.log(error);

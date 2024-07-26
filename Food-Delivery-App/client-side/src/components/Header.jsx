@@ -95,30 +95,17 @@ export default function Header() {
                     </Modal>
                   ) : null}
                   <div className="relative" data-twe-dropdown-ref>
-                    <button
-                      className="text-black hover:bg-black hover:text-white rounded-md px-3 py-2 text-sm font-medium"
-                      type="button"
-                      id="dropdownMenuButton1"
-                      onClick={toggleDropdown}
-                      aria-expanded={dropDown ? "true" : "false"}
-                      data-twe-dropdown-toggle-ref
-                      data-twe-ripple-init
-                      data-twe-ripple-color="light">
+                    <Link
+                      to="/profile"
+                      className="text-black hover:bg-black hover:text-white rounded-md px-3 py-2 text-sm font-medium">
                       Profile
-                    </button>
+                    </Link>
                     <ul
                       className={`absolute z-[100] float-left m-auto py-2 ${
                         dropDown ? "block" : "hidden"
                       } max-w-max list-none overflow-hidden bg-white text-base shadow-lg data-[twe-dropdown-show]:block dark:bg-surface-dark`}
                       aria-labelledby="dropdownMenuButton1"
                       data-twe-dropdown-menu-ref>
-                      <li>
-                        <div
-                          className="cursor-pointer text-black hover:bg-black hover:text-white rounded-md px-3 py-2 text-sm font-medium"
-                          data-twe-dropdown-item-ref>
-                          <Link to="/profile">Profile</Link>
-                        </div>
-                      </li>
                       <li>
                         {role === "admin" && (
                           <div
@@ -127,15 +114,6 @@ export default function Header() {
                             <Link to="/dashboard">Dashboard</Link>
                           </div>
                         )}
-                      </li>
-                      <li>
-                        <div
-                          className=" cursor-pointer text-red-700 hover:bg-red-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
-                          type="button"
-                          onClick={handleClick}
-                          data-twe-dropdown-item-ref>
-                          Logout
-                        </div>
                       </li>
                     </ul>
                   </div>

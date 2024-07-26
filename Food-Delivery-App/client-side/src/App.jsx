@@ -6,9 +6,9 @@ import SignUp from "./pages/SignUp";
 import ForgotPassword from "./pages/ForgotPassword";
 import Orders from "./pages/Orders";
 import AdminDashboard from "./pages/AdminDashboard";
-import Profile from "./pages/Profile";
 import ResetPassword from "./pages/ResetPassword";
 import { AuthContext } from "./components/UserContextReducer";
+import Profile from "./pages/Profile";
 
 export default function App() {
   const { login, changeRole } = useContext(AuthContext);
@@ -34,8 +34,7 @@ export default function App() {
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/resetPassword/:token" element={<ResetPassword />} />
-
-          {isLoggedIn && role === "user" ? (
+          {login && role === "user" ? (
             <Route>
               <Route path="/orders" element={<Orders />} />
               <Route path="/profile" element={<Profile />} />

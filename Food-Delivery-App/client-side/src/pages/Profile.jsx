@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
+import axios from "axios";
 
 export default function Profile() {
   const [changeDetail, setChangeDetail] = useState(false);
@@ -7,6 +8,11 @@ export default function Profile() {
     name: "",
     email: "",
   });
+
+  const headers = {
+    id: localStorage.getItem("id"),
+    authorization: `Bearer ${localStorage.getItem("authToken")}`,
+  };
 
   const { name, email } = formData;
 
@@ -17,27 +23,19 @@ export default function Profile() {
     }));
   };
 
-  // const userData = async () => {
-  //   const responseData = await fetch("http://localhost:5001/userData", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       "x-access-token": localStorage.getItem("authToken"),
-  //     },
-  //     body: JSON.stringify({
-  //       name: req.body.name,
-  //       email: req.body.email,
-  //     }),
-  //   });
-  // };
-
   useEffect(() => {
+    const userData = async () => {
+      const response = await axios.get("http://localhost:5001/userData", {
+        headers,
+      });
+      console.log(response.data);
+    };
     userData();
   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const result = await fetch("http://localhost:5001/updateuser/:id", {
+    const result = await fetch("http://localhost:5001/updateuser", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

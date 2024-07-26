@@ -28,14 +28,15 @@ export default function SignIn() {
     });
     const json = await response.json();
     console.log(json);
+    localStorage.setItem("userEmail", email);
+    localStorage.setItem("id", json.id);
+    localStorage.setItem("authToken", json.authToken);
 
     if (!json.success) {
       alert("Enter valid credentials");
     }
 
     if (json.success) {
-      localStorage.setItem("userEmail", email);
-      localStorage.setItem("authToken", json.authToken);
       console.log(localStorage.getItem("authToken"));
       navigate("/");
     }
