@@ -23,6 +23,12 @@ const user = new mongoose.Schema({
   address: {
     type: String,
   },
+  avatar: {
+    type: String,
+    default: "",
+  },
   favourites: [{ type: mongoose.Types.ObjectId, ref: "hotels" }],
   my_bookings: [{ type: mongoose.Types.ObjectId, ref: "bookings" }],
 });
+
+module.exports = mongoose.model("user", user);
