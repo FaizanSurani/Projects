@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -10,15 +11,40 @@ const Register = () => {
   });
 
   const { username, email, password, address } = formData;
+  const navigate = useNavigate();
 
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      if (
+        username === "" ||
+        email === "" ||
+        password === "" ||
+        address === ""
+      ) {
+        alert("All fields are necessary");
+      } else {
+        const response = await axios.post(
+          "http://localhost:5000/api/v1/register",
+          { username, email, password, address }
+        );
+        alert(response.data.message);
+        navigate("/login");
+      }
+    } catch (error) {
+      alert(error.response.data.message);
+    }
+  };
   return (
     <>
       <div className="min-h-screen px-12 py-8 flex justify-center items-center">
-        <form className="bg-blue-500 w-full md:w-3/6 lg:h-2/6 rounded-lg px-8 py-5">
+        <form
+          onSubmit={handleSubmit}
+          className="bg-blue-500 w-full md:w-3/6 lg:h-2/6 rounded-lg px-8 py-5">
           <h1 className="text-xl text-white">Register</h1>
           <div className="mt-4">
             <label htmlFor="username">Username</label>

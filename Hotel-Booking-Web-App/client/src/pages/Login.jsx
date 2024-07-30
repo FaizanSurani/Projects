@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -8,15 +9,42 @@ const Login = () => {
   });
 
   const { email, password } = formData;
+  const navigate = useNavigate();
 
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      if (email === "" || password === "") {
+        alert("All fields are necessary");
+      } else {
+        const response = await axios.post(
+          "http://localhost:5000/api/v1/login",
+          {
+            email,
+            password,
+          }
+        );
+        console.log(response.data);
+        localStorage.setItem("id", response.data.id);
+        localStorage.setItem("role", response.data.role);
+        localStorage.setItem("authToken", response.data.authToken);
+        navigate("/");
+      }
+    } catch (error) {
+      alert(error.response.data.message);
+    }
+  };
+
   return (
     <>
       <div className="min-h-screen px-12 py-8 flex justify-center items-center">
-        <form className="bg-blue-500 w-full md:w-3/6 lg:h-2/6 rounded-lg px-8 py-5">
+        <form
+          onSubmit={handleSubmit}
+          className="bg-blue-500 w-full md:w-3/6 lg:h-2/6 rounded-lg px-8 py-5">
           <h1 className="text-xl text-white">Login</h1>
           <div className="mt-4">
             <label>Email</label>
