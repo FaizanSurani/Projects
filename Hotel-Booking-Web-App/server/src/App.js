@@ -8,6 +8,9 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/api/v1", require("./routes/userRoutes"));
+app.use("/api/v1", require("./routes/forgotPassword"));
+app.use("/api/v1", require("./routes/userData"));
+app.use("/api/v1", require("./routes/resetPassword"));
 
 app.listen(PORT, (req, res) => {
   console.log(`Server running at PORT ${PORT}`);
