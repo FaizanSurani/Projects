@@ -50,7 +50,7 @@ const Login = () => {
             <label>Email</label>
             <input
               type="text"
-              className="w-full mt-2 p-2 outline-none"
+              className="w-full mt-2 p-2 outline-none bg-blue-200"
               required
               value={email}
               name="email"
@@ -62,7 +62,7 @@ const Login = () => {
             <input
               type="password"
               name="password"
-              className="w-full mt-2 p-2 outline-none"
+              className="w-full mt-2 p-2 outline-none bg-blue-200"
               value={password}
               required
               onChange={onChange}
@@ -83,7 +83,7 @@ const Login = () => {
             </Link>
           </p>
           <Link
-            to=""
+            to="/forgot-password"
             className="flex justify-center items-center text-red-600 font-semibold mt-4">
             <u>Forgot Password?</u>
           </Link>

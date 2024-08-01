@@ -51,7 +51,7 @@ const Register = () => {
             <input
               type="text"
               name="username"
-              className="w-full mt-2 p-2 outline-none"
+              className="w-full mt-2 p-2 outline-none bg-blue-200"
               value={username}
               onChange={onChange}
               required
@@ -62,7 +62,7 @@ const Register = () => {
             <input
               type="email"
               name="email"
-              className="w-full mt-2 p-2 outline-none"
+              className="w-full mt-2 p-2 outline-none bg-blue-200"
               value={email}
               onChange={onChange}
               required
@@ -73,7 +73,7 @@ const Register = () => {
             <input
               type="password"
               name="password"
-              className="w-full mt-2 p-2 outline-none"
+              className="w-full mt-2 p-2 outline-none bg-blue-200"
               value={password}
               onChange={onChange}
               required
@@ -85,7 +85,7 @@ const Register = () => {
               name="address"
               rows="5"
               value={address}
-              className="w-full mt-2 p-2 outline-none"
+              className="w-full mt-2 p-2 outline-none bg-blue-200"
               onChange={onChange}
               required
             />
