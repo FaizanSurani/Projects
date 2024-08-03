@@ -12,6 +12,14 @@ const Header = () => {
       link: "/register  ",
     },
     {
+      items: "My Bookings",
+      link: "/my-bookings",
+    },
+    {
+      items: "My Hotels",
+      link: "/my-hotels",
+    },
+    {
       items: "Profile",
       link: "/profile",
     },
