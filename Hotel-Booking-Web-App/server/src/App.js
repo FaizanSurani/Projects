@@ -18,6 +18,7 @@ app.use("/api/v1", require("./routes/userRoutes"));
 app.use("/api/v1", require("./routes/forgotPassword"));
 app.use("/api/v1", require("./routes/userData"));
 app.use("/api/v1", require("./routes/resetPassword"));
+app.use("/api/v1", require("./routes/hotelRoutes"));
 
 app.listen(PORT, (req, res) => {
   console.log(`Server running at PORT ${PORT}`);

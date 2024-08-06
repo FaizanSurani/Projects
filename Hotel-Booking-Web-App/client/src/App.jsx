@@ -8,6 +8,7 @@ import Footer from "./components/Footer";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Profile from "./pages/Profile";
+import AddHotel from "./pages/AddHotel";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/add-hotel" element={<AddHotel />} />
       </Routes>
       <Footer />
     </>
