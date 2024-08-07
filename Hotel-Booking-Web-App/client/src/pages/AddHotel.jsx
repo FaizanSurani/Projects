@@ -14,48 +14,73 @@ const AddHotel = () => {
             <label>Hotel Name</label>
             <input
               type="text"
-              className="w-full mt-2 p-2 outline-none bg-blue-200"
+              className="w-full mt-2 p-2 outline-none bg-blue-200 rounded"
               required
               name="name"
               onChange={handleChange}
             />
           </div>
-          <div className="mt-4">
-            <label htmlFor="">Hotel City</label>
-            <input
-              type="text"
-              name="city"
-              className="w-full mt-2 p-2 outline-none bg-blue-200"
-              required
-              onChange={handleChange}
-            />
-          </div>
-          <div className="mt-4">
-            <label htmlFor="">Hotel Country</label>
-            <input
-              type="text"
-              name="country"
-              className="w-full mt-2 p-2 outline-none bg-blue-200"
-              required
-              onChange={handleChange}
-            />
+          <div className="flex gap-4 mt-4">
+            <div>
+              <label htmlFor="city">Hotel City</label>
+              <input
+                type="text"
+                name="city"
+                className="w-full mt-2 p-2 outline-none bg-blue-200 rounded"
+                required
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label htmlFor="country">Hotel Country</label>
+              <input
+                type="text"
+                name="country"
+                className="w-full mt-2 p-2 outline-none bg-blue-200 rounded"
+                required
+                onChange={handleChange}
+              />
+            </div>
           </div>
           <div className="mt-4">
             <label htmlFor="">Hotel Description</label>
             <textarea
               rows={5}
               name="description"
-              className="w-full mt-2 p-2 outline-none bg-blue-200"
+              className="w-full mt-2 p-2 outline-none bg-blue-200 rounded"
               required
               onChange={handleChange}
             />
+          </div>
+          <div className="mt-4">
+            <label htmlFor="price">Price Per Night</label>
+            <input
+              type="number"
+              name="price"
+              className="w-full mt-2 p-2 outline-none bg-blue-200 rounded"
+              required
+              onChange={handleChange}
+            />
+          </div>
+          <div className="mt-4">
+            <label htmlFor="rating">Select an Rating</label>
+            <select
+              name="rating"
+              className="border rounded w-full p-2 bg-blue-200 font-normal">
+              <option value="" className="text-sm font-semibold">
+                Select an Rating
+              </option>
+              {[1, 2, 3, 4, 5].map((num) => (
+                <option value={num}>{num}</option>
+              ))}
+            </select>
           </div>
           <div className="mt-4">
             <label htmlFor="">Hotel Type</label>
             <input
               type="text"
               name="type"
-              className="w-full mt-2 p-2 outline-none bg-blue-200"
+              className="w-full mt-2 p-2 outline-none bg-blue-200 rounded"
               required
               onChange={handleChange}
             />
