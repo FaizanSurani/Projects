@@ -33,6 +33,11 @@ const AddHotel = () => {
     images,
   } = formData;
 
+  const headers = {
+    id: localStorage.getItem("id"),
+    token: localStorage.getItem("authToken"),
+  };
+
   const handleChange = (e) => {
     const { name, type, value } = e.target;
 
@@ -41,15 +46,15 @@ const AddHotel = () => {
         ...prevState,
         guests: {
           ...prevState.guests,
-          [name.split(",")[1]]: value,
+          [name]: value,
         },
       }));
-    } else if (name === "checkbox") {
+    } else if (type === "checkbox") {
       const checkedFacilites = facilities.includes(value)
         ? facilities.filter((facility) => facility !== value)
         : [...facilities, value];
       setFormData({ ...formData, facilities: checkedFacilites });
-    } else if (name === "radio") {
+    } else if (type === "radio") {
       setFormData({ ...formData, type: value });
     } else {
       setFormData({ ...formData, [name]: value });
@@ -63,7 +68,35 @@ const AddHotel = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // const response = await axios.post("");
+    try {
+      const formDataJson = new FormData();
+
+      formDataJson.append("name", formData.name);
+      formDataJson.append("city", formData.city);
+      formDataJson.append("country", formData.country);
+      formDataJson.append("description", formData.description);
+      formDataJson.append("type", formData.type);
+      formDataJson.append("pricePerNight", formData.price.toString());
+      formDataJson.append("rating", formData.rating.toString());
+      formDataJson.append("adultCount", formData.guests.adult.toString());
+      formDataJson.append("childCount", formData.guests.child.toString());
+
+      formData.facilities.forEach((facility, index) =>
+        formDataJson.append(`facilities[${index}]`, facility)
+      );
+      Array.from(formData.images).forEach((image, index) => {
+        formDataJson.append(`images[${index}]`, image);
+      });
+
+      const response = await axios.post(
+        "http://localhost:5000/api/v1/addHotels",
+        formDataJson,
+        { headers }
+      );
+      alert(response.data.message);
+    } catch (error) {
+      alert(error.response.data.message);
+    }
   };
 
   return (
@@ -149,13 +182,20 @@ const AddHotel = () => {
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 text-white gap-2 mt-2">
               {hotelTypes.map((types) => (
                 <label
-                  htmlFor="radio"
-                  className="cursor-pointer bg-blue-300 text-sm rounded-full px-4 py-2 font-semibold active:bg-blue-500">
+                  key={types}
+                  className={`cursor-pointer bg-blue-300 text-sm rounded-full px-4 py-2 font-semibold 
+                  ${
+                    types === type
+                      ? "bg-blue-700 text-white"
+                      : "bg-blue-300 text-black"
+                  }`}>
                   <input
                     type="radio"
                     name="type"
+                    className="hidden"
                     checked={types === type}
-                    value={type}
+                    value={types}
+                    onChange={handleChange}
                   />
                   <span>{types}</span>
                 </label>
@@ -164,12 +204,12 @@ const AddHotel = () => {
           </div>
           <div className="mt-4">
             <label htmlFor="type">Facilities</label>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 text-white gap-1 mt-2">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 text-white gap-2 mt-2">
               {facilites.map((facility) => (
                 <label
                   key={facility}
                   htmlFor="checkbox"
-                  className="flex text-sm gap-2 font-bold ">
+                  className="text-sm font-semibold ">
                   <input type="checkbox" value={facility} />
                   {facility}
                 </label>
@@ -178,9 +218,11 @@ const AddHotel = () => {
           </div>
           <div className="mt-4 bg-blue-400 rounded p-2">
             <label htmlFor="">Guests</label>
-            <div className="flex justify-around text-white">
+            <div className="flex justify-around text-black gap-2">
               <div>
-                <label htmlFor="city">Adult</label>
+                <label htmlFor="city" className="text-white">
+                  Adult
+                </label>
                 <input
                   type="text"
                   value={adult}
@@ -191,7 +233,9 @@ const AddHotel = () => {
                 />
               </div>
               <div>
-                <label htmlFor="guests">Child</label>
+                <label htmlFor="guests" className="text-white">
+                  Child
+                </label>
                 <input
                   type="text"
                   value={child}
@@ -210,7 +254,7 @@ const AddHotel = () => {
                 type="file"
                 multiple
                 accept="image/*"
-                value={images}
+                onChange={handleFileChange}
                 className="w-full text-white font-normal"
               />
             </div>
