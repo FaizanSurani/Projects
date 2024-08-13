@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const multer = require("multer");
-const cloudinary = require("cloudinary");
+const cloudinary = require("cloudinary").v2;
 const hotel = require("../models/hotelSchema");
 const authentication = require("./auth");
 const { body } = require("express-validator");
@@ -8,8 +8,8 @@ const { body } = require("express-validator");
 const storage = multer.memoryStorage();
 const upload = multer({
   storage: storage,
-  limit: {
-    fileSize: 5 * 1024 * 1024,
+  limits: {
+    fileSize: 5 * 1024 * 1024, // 5 MB limit
   },
 });
 
@@ -28,7 +28,7 @@ router.post(
       .notEmpty()
       .isNumeric()
       .withMessage("Price is Required"),
-    body("Facilities").notEmpty().withMessage("Facilities is Required"),
+    body("facilities").notEmpty().withMessage("Facilities is Required"),
   ],
   upload.array("imageFiles", 6),
   async (req, res) => {
@@ -45,21 +45,19 @@ router.post(
         pricePerNight,
         childCount,
         adultCount,
-        imageURL,
       } = req.body;
       const { userId } = req.headers;
 
       const uploadImages = imageFiles.map(async (image) => {
         const b64 = Buffer.from(image.buffer).toString("base64");
-        let dataURI = "data:" + image.mimetype + ";base64" + b64;
-        const res = await cloudinary.v2.uploader.upload(dataURI);
-        return res.url;
+        const dataURI = "data:" + image.mimetype + ";base64," + b64;
+        const result = await cloudinary.uploader.upload(dataURI);
+        return result.url;
       });
 
       const imageURLs = await Promise.all(uploadImages);
-      imageURL = imageURLs;
 
-      await hotel.create(
+      await hotel.create({
         userId,
         hotelName,
         hotelCity,
@@ -71,11 +69,12 @@ router.post(
         rating,
         pricePerNight,
         facilities,
-        imageURL
-      );
-      return res.status(201).json({ message: "Hotel Added Succesfully!" });
+        imageURL: imageURLs,
+      });
+
+      return res.status(201).json({ message: "Hotel Added Successfully!" });
     } catch (error) {
-      return res.status(500).json({ message: error });
+      return res.status(500).json({ message: error.message });
     }
   }
 );

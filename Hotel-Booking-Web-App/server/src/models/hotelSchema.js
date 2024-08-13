@@ -2,7 +2,9 @@ const { Schema, default: mongoose } = require("mongoose");
 
 const hotel = new Schema({
   userId: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user",
+    required: true,
   },
   hotelName: {
     type: String,

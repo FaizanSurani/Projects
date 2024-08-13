@@ -35,7 +35,7 @@ const AddHotel = () => {
 
   const headers = {
     id: localStorage.getItem("id"),
-    token: localStorage.getItem("authToken"),
+    authorization: `Bearer ${localStorage.getItem("authToken")}`,
   };
 
   const handleChange = (e) => {
@@ -81,21 +81,21 @@ const AddHotel = () => {
       formDataJson.append("adultCount", formData.guests.adult.toString());
       formDataJson.append("childCount", formData.guests.child.toString());
 
-      formData.facilities.forEach((facility, index) =>
-        formDataJson.append(`facilities[${index}]`, facility)
+      facilities.forEach((facility) =>
+        formDataJson.append("facilities[]", facility)
       );
-      Array.from(formData.images).forEach((image, index) => {
-        formDataJson.append(`images[${index}]`, image);
-      });
-
+      Array.from(images).forEach((image) =>
+        formDataJson.append("imageFiles", image)
+      );
       const response = await axios.post(
         "http://localhost:5000/api/v1/addHotels",
         formDataJson,
         { headers }
       );
-      alert(response.data.message);
+      alert(response);
+      console.log(response);
     } catch (error) {
-      alert(error.response.data.message);
+      alert(error);
     }
   };
 
@@ -168,12 +168,15 @@ const AddHotel = () => {
             <select
               name="rating"
               value={rating}
+              onChange={handleChange}
               className="border rounded w-full p-2 bg-blue-200 font-normal mt-2">
               <option value="" className="text-sm font-semibold">
                 Select an Rating
               </option>
               {[1, 2, 3, 4, 5].map((num) => (
-                <option value={num}>{num}</option>
+                <option value={num} key={num}>
+                  {num}
+                </option>
               ))}
             </select>
           </div>
@@ -208,9 +211,15 @@ const AddHotel = () => {
               {facilites.map((facility) => (
                 <label
                   key={facility}
-                  htmlFor="checkbox"
-                  className="text-sm font-semibold ">
-                  <input type="checkbox" value={facility} />
+                  htmlFor={facility}
+                  className="text-sm font-semibold">
+                  <input
+                    type="checkbox"
+                    id={facility} // Add an `id` to the checkbox
+                    value={facility}
+                    checked={facilities.includes(facility)}
+                    onChange={handleChange}
+                  />
                   {facility}
                 </label>
               ))}
@@ -253,6 +262,7 @@ const AddHotel = () => {
               <input
                 type="file"
                 multiple
+                name="imageFiles"
                 accept="image/*"
                 onChange={handleFileChange}
                 className="w-full text-white font-normal"
