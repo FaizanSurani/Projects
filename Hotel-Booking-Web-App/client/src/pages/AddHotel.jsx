@@ -71,11 +71,11 @@ const AddHotel = () => {
     try {
       const formDataJson = new FormData();
 
-      formDataJson.append("name", formData.name);
-      formDataJson.append("city", formData.city);
-      formDataJson.append("country", formData.country);
-      formDataJson.append("description", formData.description);
-      formDataJson.append("type", formData.type);
+      formDataJson.append("hotelName", formData.name);
+      formDataJson.append("hotelCity", formData.city);
+      formDataJson.append("hotelCountry", formData.country);
+      formDataJson.append("hotelDescription", formData.description);
+      formDataJson.append("hotelType", formData.type);
       formDataJson.append("pricePerNight", formData.price.toString());
       formDataJson.append("rating", formData.rating.toString());
       formDataJson.append("adultCount", formData.guests.adult.toString());
@@ -92,10 +92,9 @@ const AddHotel = () => {
         formDataJson,
         { headers }
       );
-      alert(response);
-      console.log(response);
+      alert(response.data.message);
     } catch (error) {
-      alert(error);
+      alert(error.response.data.message);
     }
   };
 

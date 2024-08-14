@@ -79,4 +79,14 @@ router.post(
   }
 );
 
+router.get("/viewHotels", authentication, async (req, res) => {
+  try {
+    const hotels = await hotel.find().sort({ userId: req.headers });
+
+    return res.status(200).json(hotels);
+  } catch (error) {
+    return res.status(500).json({ message: error });
+  }
+});
+
 module.exports = router;
