@@ -9,6 +9,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Profile from "./pages/Profile";
 import AddHotel from "./pages/AddHotel";
+import ViewHotels from "./pages/ViewHotels";
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
         <Route path="/reset-password/:token" element={<ResetPassword />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/add-hotel" element={<AddHotel />} />
+        <Route path="/my-hotels" element={<ViewHotels />} />
       </Routes>
       <Footer />
     </>
