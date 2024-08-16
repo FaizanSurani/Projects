@@ -2,8 +2,7 @@ const { Schema, default: mongoose } = require("mongoose");
 
 const hotel = new Schema({
   userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "user",
+    type: String,
   },
   hotelName: {
     type: String,

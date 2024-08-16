@@ -93,6 +93,7 @@ const AddHotel = () => {
         { headers }
       );
       alert(response.data.message);
+      Navigate("/my-hotels");
     } catch (error) {
       alert(error.response.data.message);
     }

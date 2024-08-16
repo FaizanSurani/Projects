@@ -46,7 +46,7 @@ router.post(
         childCount,
         adultCount,
       } = req.body;
-      const { userId } = req.headers;
+      const { id } = req.headers;
 
       const uploadImages = imageFiles.map(async (image) => {
         const b64 = Buffer.from(image.buffer).toString("base64");
@@ -58,7 +58,7 @@ router.post(
       const imageURLs = await Promise.all(uploadImages);
 
       await hotel.create({
-        userId,
+        userId: id,
         hotelName,
         hotelCity,
         hotelCountry,
@@ -81,9 +81,9 @@ router.post(
 
 router.get("/viewHotels", authentication, async (req, res) => {
   try {
-    const hotels = await hotel.find().sort({ userId: req.headers });
+    const data = await hotel.find();
 
-    return res.status(200).json(hotels);
+    return res.status(201).json(data);
   } catch (error) {
     return res.status(500).json({ message: error });
   }

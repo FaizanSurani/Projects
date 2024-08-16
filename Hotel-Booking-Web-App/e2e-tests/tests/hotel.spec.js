@@ -1,3 +1,4 @@
+const exp = require("constants");
 const { test, expect } = require("playwright/test");
 const ui_url = "http://localhost:5173/";
 
@@ -32,4 +33,18 @@ test("should allow user to add a hotel", async ({ page }) => {
   await page.locator('[name="child"]').fill("4");
 
   await page.getByRole("button", { name: "Add Hotel" }).click();
+});
+
+test("should display hotels", async ({ page }) => {
+  await page.goto(`${ui_url}my-hotels`);
+
+  await expect(page.getByText("Test Data")).toBeVisible();
+  await expect(
+    page.locator(':has-text("test data description")')
+  ).toBeVisible();
+  await expect(page.getByText("Mumbai, India")).toBeVisible();
+  await expect(page.getByText("All Inclusive")).toBeVisible();
+  await expect(page.getByText("400")).toBeVisible();
+  await expect(page.getByText("4 Adult, 2 Child")).toBeVisible();
+  await expect(page.getByText("3")).toBeVisible();
 });
