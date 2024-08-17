@@ -89,4 +89,12 @@ router.get("/viewHotels", authentication, async (req, res) => {
   }
 });
 
+router.put("/editHotel/:id", authentication, async (req, res) => {
+  const { id } = req.params;
+  try {
+    return res.status(201).json();
+  } catch (error) {
+    return res.status(500).json({ message: error });
+  }
+});
 module.exports = router;
