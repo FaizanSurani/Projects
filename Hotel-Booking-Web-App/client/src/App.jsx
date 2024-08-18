@@ -10,6 +10,7 @@ import ResetPassword from "./pages/ResetPassword";
 import Profile from "./pages/Profile";
 import AddHotel from "./pages/AddHotel";
 import ViewHotels from "./pages/ViewHotels";
+import EditHotel from "./pages/EditHotel";
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
         <Route path="/profile" element={<Profile />} />
         <Route path="/add-hotel" element={<AddHotel />} />
         <Route path="/my-hotels" element={<ViewHotels />} />
+        <Route path="/edit-hotel/:id" element={<EditHotel />} />
       </Routes>
       <Footer />
     </>

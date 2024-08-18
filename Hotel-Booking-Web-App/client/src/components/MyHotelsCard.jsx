@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 const MyHotelsCard = ({ hotels }) => {
   return (
     <>
-      <Link>
+      <Link to={`/edit-hotel/${hotels._id}`}>
         <div className="flex flex-col justify-between border border-slate-300 rounded-lg p-4 md:p-8 gap-5 m-2 md:m-4">
           <h2 className="text-xl md:text-2xl font-bold">{hotels.hotelName}</h2>
           <p className="whitespace-pre-line text-sm md:text-base">

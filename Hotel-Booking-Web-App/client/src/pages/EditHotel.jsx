@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router";
 import { hotelTypes } from "../components/HotelTypes";
 import { facilites } from "../components/Facilities";
 import axios from "axios";
 import { useNavigate } from "react-router";
 
-const AddHotel = () => {
+const EditHotel = () => {
+  const { id } = useParams();
   const [formData, setFormData] = useState({
     name: "",
     city: "",
@@ -14,10 +16,8 @@ const AddHotel = () => {
     rating: "",
     type: "",
     facilities: [],
-    guests: {
-      adult: "",
-      child: "",
-    },
+    adult: "",
+    child: "",
     images: [],
   });
 
@@ -30,7 +30,8 @@ const AddHotel = () => {
     rating,
     type,
     facilities,
-    guests: { adult, child },
+    adult,
+    child,
     images,
   } = formData;
 
@@ -41,18 +42,39 @@ const AddHotel = () => {
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const getHotel = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/v1/getHotel/${id}`,
+          { headers }
+        );
+        const data = response.data;
+        console.log(data);
+
+        setFormData({
+          name: data.hotelName,
+          city: data.hotelCity,
+          country: data.hotelCountry,
+          description: data.hotelDescription,
+          price: data.pricePerNight,
+          rating: data.rating,
+          type: data.hotelType,
+          facilities: data.facilities || [],
+          adult: data.adultCount,
+          child: data.childCount,
+          images: data.imageURL || [],
+        });
+      } catch (error) {
+        console.log(error.response.data.message);
+      }
+    };
+    getHotel();
+  }, [id]);
+
   const handleChange = (e) => {
     const { name, type, value } = e.target;
-
-    if (name === "adult" || name === "child") {
-      setFormData((prevState) => ({
-        ...prevState,
-        guests: {
-          ...prevState.guests,
-          [name]: value,
-        },
-      }));
-    } else if (type === "checkbox") {
+    if (type === "checkbox") {
       const checkedFacilites = facilities.includes(value)
         ? facilities.filter((facility) => facility !== value)
         : [...facilities, value];
@@ -81,8 +103,8 @@ const AddHotel = () => {
       formDataJson.append("hotelType", formData.type);
       formDataJson.append("pricePerNight", formData.price.toString());
       formDataJson.append("rating", formData.rating.toString());
-      formDataJson.append("adultCount", formData.guests.adult.toString());
-      formDataJson.append("childCount", formData.guests.child.toString());
+      formDataJson.append("adultCount", formData.adult.toString());
+      formDataJson.append("childCount", formData.child.toString());
 
       facilities.forEach((facility) =>
         formDataJson.append("facilities[]", facility)
@@ -90,25 +112,24 @@ const AddHotel = () => {
       Array.from(images).forEach((image) =>
         formDataJson.append("imageFiles", image)
       );
-      const response = await axios.post(
-        "http://localhost:5000/api/v1/addHotels",
-        formDataJson,
-        { headers }
-      );
-      alert(response.data.message);
-      navigate("/my-hotels");
+      //   const response = await axios.put(
+      //     "http://localhost:5000/api/v1/addHotels",
+      //     formDataJson,
+      //     { headers }
+      //   );
+      //   alert(response.data.message);
+      //   navigate("/my-hotels");
     } catch (error) {
-      alert(error.response.data.message);
+      //   alert(error.response.data.message);
     }
   };
-
   return (
     <>
       <div className="min-h-screen px-12 py-8 flex justify-center items-center">
         <form
           onSubmit={handleSubmit}
           className="bg-blue-500 w-full md:w-3/6 lg:h-2/6 rounded-lg px-8 py-5">
-          <h1 className="text-xl text-white">Add Hotel</h1>
+          <h1 className="text-xl text-white">Edit Hotel</h1>
           <div className="mt-4">
             <label>Hotel Name</label>
             <input
@@ -274,7 +295,7 @@ const AddHotel = () => {
           </div>
           <div className="mt-4">
             <button className="text-white w-full px-7 py-3 rounded bg-red-500 hover:bg-red-600 uppercase transition duration-150 ease-in-out">
-              Add hotel
+              Update hotel
             </button>
           </div>
         </form>
@@ -283,4 +304,4 @@ const AddHotel = () => {
   );
 };
 
-export default AddHotel;
+export default EditHotel;
