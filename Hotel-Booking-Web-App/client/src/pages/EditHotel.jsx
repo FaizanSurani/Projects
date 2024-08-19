@@ -283,6 +283,22 @@ const EditHotel = () => {
           <div className="mt-4">
             <label htmlFor="price">Images</label>
             <div className="border rounded p-4 flex flex-col gap-4 mt-2">
+              {images && (
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  {images.map((image) => (
+                    <div className="relative group">
+                      <img
+                        src={image}
+                        alt="..."
+                        className="min-h-full object-cover"
+                      />
+                      <button className="absolute inset-0 flex text-white justify-center items-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100">
+                        Delete
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
               <input
                 type="file"
                 multiple
