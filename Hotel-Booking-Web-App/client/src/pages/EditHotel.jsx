@@ -112,15 +112,15 @@ const EditHotel = () => {
       Array.from(images).forEach((image) =>
         formDataJson.append("imageFiles", image)
       );
-      //   const response = await axios.put(
-      //     "http://localhost:5000/api/v1/addHotels",
-      //     formDataJson,
-      //     { headers }
-      //   );
-      //   alert(response.data.message);
-      //   navigate("/my-hotels");
+      const response = await axios.put(
+        `http://localhost:5000/api/v1/updateHotel/${id}`,
+        formDataJson,
+        { headers }
+      );
+      alert(response.data.message);
+      navigate("/my-hotels");
     } catch (error) {
-      //   alert(error.response.data.message);
+      alert(error.response.data.message);
     }
   };
   return (

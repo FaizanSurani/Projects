@@ -99,6 +99,55 @@ router.get("/getHotel/:id", authentication, async (req, res) => {
   }
 });
 
-router.put("/updateHotel/:id", authentication, async (req, res) => {});
+router.put("/updateHotel/:id", authentication, async (req, res) => {
+  try {
+    const imageFiles = req.files;
+    const {
+      hotelName,
+      hotelType,
+      hotelCity,
+      hotelCountry,
+      hotelDescription,
+      facilities,
+      rating,
+      pricePerNight,
+      childCount,
+      adultCount,
+    } = req.body;
+    const { id } = req.params;
+
+    const uploadImages = imageFiles.map(async (image) => {
+      const b64 = Buffer.from(image.buffer).toString("base64");
+      const dataURI = "data:" + image.mimetype + ";base64," + b64;
+      const result = await cloudinary.uploader.upload(dataURI);
+      return result.url;
+    });
+
+    const imageURLs = await Promise.all(uploadImages);
+
+    const updatedHotel = await hotel.findByIdAndUpdate(
+      id,
+      {
+        hotelName,
+        hotelCity,
+        hotelCountry,
+        hotelType,
+        hotelDescription,
+        facilities,
+        rating,
+        adultCount,
+        childCount,
+        pricePerNight,
+        $push: { imageURL: { $each: imageURLs } },
+      },
+      { new: true }
+    );
+
+    await updatedHotel.save();
+    return res.status(200).json({ message: "Hotel Updated Succesfully!!" });
+  } catch (error) {
+    return res.status(500).json({ message: error });
+  }
+});
 
 module.exports = router;
