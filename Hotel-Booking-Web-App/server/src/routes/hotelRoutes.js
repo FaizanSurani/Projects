@@ -138,7 +138,7 @@ router.put("/updateHotel/:id", authentication, async (req, res) => {
         adultCount,
         childCount,
         pricePerNight,
-        $push: { imageURL: { $each: imageURLs } },
+        imageURL: imageURLs,
       },
       { new: true }
     );
