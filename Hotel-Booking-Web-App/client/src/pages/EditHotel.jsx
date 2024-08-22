@@ -88,7 +88,17 @@ const EditHotel = () => {
 
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
-    setFormData({ ...formData, images: files });
+    setFormData((prevData) => ({
+      ...prevData,
+      images: [...prevData.images, ...files],
+    }));
+  };
+
+  const handleRemoveImage = (index) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      images: prevData.images.filter((_, imgIndex) => imgIndex !== index),
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -107,11 +117,15 @@ const EditHotel = () => {
       formDataJson.append("childCount", formData.child.toString());
 
       facilities.forEach((facility) =>
-        formDataJson.append("facilities[]", facility)
+        formDataJson.append("facilities", facility)
       );
-      Array.from(images).forEach((image) =>
-        formDataJson.append("imageFiles", image)
-      );
+
+      if (images) {
+        images.forEach((image) => {
+          formDataJson.append("imageFiles", image);
+        });
+      }
+
       const response = await axios.put(
         `http://localhost:5000/api/v1/updateHotel/${id}`,
         formDataJson,
@@ -125,7 +139,7 @@ const EditHotel = () => {
   };
   return (
     <>
-      <div className="min-h-screen px-12 py-8 flex justify-center items-center">
+      <div className="min-h-screen py-8 px-12 flex justify-center items-center">
         <form
           onSubmit={handleSubmit}
           className="bg-blue-500 w-full md:w-3/6 lg:h-2/6 rounded-lg px-8 py-5">
@@ -257,7 +271,7 @@ const EditHotel = () => {
                   Adult
                 </label>
                 <input
-                  type="text"
+                  type="number"
                   value={adult}
                   name="adult"
                   className="w-full mb-2 p-2 outline-none bg-blue-200 rounded"
@@ -270,7 +284,7 @@ const EditHotel = () => {
                   Child
                 </label>
                 <input
-                  type="text"
+                  type="number"
                   value={child}
                   name="child"
                   className="w-full mb-2 p-2 outline-none bg-blue-200 rounded"
@@ -285,14 +299,16 @@ const EditHotel = () => {
             <div className="border rounded p-4 flex flex-col gap-4 mt-2">
               {images && (
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  {images.map((image) => (
+                  {images.map((image, index) => (
                     <div className="relative group">
                       <img
                         src={image}
                         alt="..."
                         className="min-h-full object-cover"
                       />
-                      <button className="absolute inset-0 flex text-white justify-center items-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100">
+                      <button
+                        onClick={() => handleRemoveImage(index)}
+                        className="absolute inset-0 flex text-white justify-center items-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100">
                         Delete
                       </button>
                     </div>

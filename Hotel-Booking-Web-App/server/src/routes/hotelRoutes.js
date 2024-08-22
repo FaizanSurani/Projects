@@ -48,14 +48,7 @@ router.post(
       } = req.body;
       const { id } = req.headers;
 
-      const uploadImages = imageFiles.map(async (image) => {
-        const b64 = Buffer.from(image.buffer).toString("base64");
-        const dataURI = "data:" + image.mimetype + ";base64," + b64;
-        const result = await cloudinary.uploader.upload(dataURI);
-        return result.url;
-      });
-
-      const imageURLs = await Promise.all(uploadImages);
+      const imageURLs = await uploadImages(imageFiles);
 
       await hotel.create({
         userId: id,
@@ -99,55 +92,68 @@ router.get("/getHotel/:id", authentication, async (req, res) => {
   }
 });
 
-router.put("/updateHotel/:id", authentication, async (req, res) => {
-  try {
-    const imageFiles = req.files;
-    const {
-      hotelName,
-      hotelType,
-      hotelCity,
-      hotelCountry,
-      hotelDescription,
-      facilities,
-      rating,
-      pricePerNight,
-      childCount,
-      adultCount,
-    } = req.body;
-    const { id } = req.params;
-
-    const uploadImages = imageFiles.map(async (image) => {
-      const b64 = Buffer.from(image.buffer).toString("base64");
-      const dataURI = "data:" + image.mimetype + ";base64," + b64;
-      const result = await cloudinary.uploader.upload(dataURI);
-      return result.url;
-    });
-
-    const imageURLs = await Promise.all(uploadImages);
-
-    const updatedHotel = await hotel.findByIdAndUpdate(
-      id,
-      {
+router.put(
+  "/updateHotel/:id",
+  authentication,
+  upload.array("imageFiles", 6),
+  async (req, res) => {
+    try {
+      const {
         hotelName,
+        hotelType,
         hotelCity,
         hotelCountry,
-        hotelType,
         hotelDescription,
         facilities,
         rating,
-        adultCount,
-        childCount,
         pricePerNight,
-        imageURL: imageURLs,
-      },
-      { new: true }
-    );
+        childCount,
+        adultCount,
+      } = req.body;
+      const { id } = req.params;
 
-    await updatedHotel.save();
-    return res.status(200).json({ message: "Hotel Updated Succesfully!!" });
-  } catch (error) {
-    return res.status(500).json({ message: error });
+      const imageFiles = req.files || [];
+
+      const updatedHotel = await hotel.findById(id);
+      if (!updatedHotel) {
+        return res.status(404).json({ message: "Hotel not found" });
+      }
+
+      updatedHotel.hotelName = hotelName;
+      updatedHotel.hotelCity = hotelCity;
+      updatedHotel.hotelCountry = hotelCountry;
+      updatedHotel.hotelType = hotelType;
+      updatedHotel.hotelDescription = hotelDescription;
+      updatedHotel.facilities = facilities;
+      updatedHotel.rating = rating;
+      updatedHotel.adultCount = adultCount;
+      updatedHotel.childCount = childCount;
+      updatedHotel.pricePerNight = pricePerNight;
+      updatedHotel.lastUpdated = new Date();
+
+      const updatedImageUrls = await uploadImages(imageFiles);
+      updatedHotel.imageURL = [
+        ...updatedImageUrls,
+        ...(updatedHotel.imageURL || []),
+      ];
+
+      await updatedHotel.save();
+      return res.status(200).json({ message: "Hotel Updated Succesfully!!" });
+    } catch (error) {
+      return res.status(500).json({ message: error });
+    }
   }
-});
+);
+
+async function uploadImages(imageFiles) {
+  const uploadPromises = imageFiles.map(async (image) => {
+    const b64 = Buffer.from(image.buffer).toString("base64");
+    const dataURI = "data:" + image.mimetype + ";base64," + b64;
+    const result = await cloudinary.uploader.upload(dataURI);
+    return result.url;
+  });
+  const imageUrls = await Promise.all(uploadPromises);
+  return imageUrls;
+}
 
 module.exports = router;

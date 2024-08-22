@@ -24,7 +24,7 @@ const ViewHotels = () => {
 
   return (
     <>
-      <div className="space-y-5 h-screen">
+      <div className="space-y-5 min-h-screen">
         <span className="flex justify-between">
           <h1 className="p-6 text-3xl font-bold">My Hotels</h1>
           <Link
