@@ -4,7 +4,7 @@ const initialState = {
   destination: "",
   checkIn: "",
   checkOut: "",
-  adultCount: 0,
+  adultCount: 1,
   childCount: 0,
 };
 
@@ -52,4 +52,5 @@ const SearchContextProvider = ({ children }) => {
   );
 };
 
-module.exports = { SearchContext, SearchContextProvider };
+export { SearchContext, SearchContextProvider };
+export default SearchContextProvider;
