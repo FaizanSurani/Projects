@@ -6,33 +6,51 @@ import { useNavigate } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
 
 const SearchBar = () => {
-  const search = useContext(SearchContext);
+  const {
+    destination,
+    checkIn,
+    checkOut,
+    adultCount,
+    childCount,
+    saveSearchValues,
+  } = useContext(SearchContext);
   const navigate = useNavigate();
 
   const [searchValue, setSearchValue] = useState({
-    destination: search.destination,
-    checkIn: search.checkIn,
-    checkOut: search.checkOut,
-    adultCount: search.adultCount,
-    childCount: search.childCount,
+    destinationValues: destination,
+    checkInValues: checkIn,
+    checkOutValues: checkOut,
+    adultCountValues: adultCount,
+    childCountValues: childCount,
   });
 
   const handleChange = (key, value) => {
     setSearchValue((prevState) => ({
       ...prevState,
-      [key]: value,
+      [`${key}Values`]: value,
     }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    search;
+    saveSearchValues(
+      destinationValues,
+      checkInValues,
+      checkOutValues,
+      adultCountValues,
+      childCountValues
+    );
 
     navigate("/search");
   };
 
-  const { destination, checkIn, checkOut, adultCount, childCount } =
-    searchValue;
+  const {
+    destinationValues,
+    checkInValues,
+    checkOutValues,
+    adultCountValues,
+    childCountValues,
+  } = searchValue;
 
   const minDate = new Date();
   const maxDate = new Date();
@@ -47,7 +65,7 @@ const SearchBar = () => {
             type="text"
             placeholder="Where are you going?"
             className="text-md focus:outline-none"
-            value={destination}
+            value={destinationValues}
             onChange={(e) => handleChange("destination", e.target.value)}
           />
         </div>
@@ -60,7 +78,7 @@ const SearchBar = () => {
               className="w-full p-1 focus:outline-none font-bold"
               min={1}
               max={20}
-              value={adultCount}
+              value={adultCountValues}
               onChange={(e) =>
                 handleChange("adultCount", parseInt(e.target.value))
               }
@@ -73,7 +91,7 @@ const SearchBar = () => {
               className="w-full p-1 focus:outline-none font-bold"
               min={0}
               max={20}
-              value={childCount}
+              value={childCountValues}
               onChange={(e) =>
                 handleChange("childCount", parseInt(e.target.value))
               }
@@ -83,11 +101,11 @@ const SearchBar = () => {
 
         <div className="flex bg-white px-2 py-1 gap-2">
           <DatePicker
-            selected={checkIn}
+            selected={checkInValues}
             onChange={(date) => handleChange("checkIn", date)}
             selectsStart
-            startDate={checkIn}
-            endDate={checkOut}
+            startDate={checkInValues}
+            endDate={checkOutValues}
             minDate={minDate}
             maxDate={maxDate}
             placeholderText="Check-in Date"
@@ -97,11 +115,11 @@ const SearchBar = () => {
 
         <div className="flex bg-white px-2 py-1 gap-2">
           <DatePicker
-            selected={checkOut}
+            selected={checkOutValues}
             onChange={(date) => handleChange("checkOut", date)}
             selectsEnd
-            startDate={checkIn}
-            endDate={checkOut}
+            startDate={checkInValues}
+            endDate={checkOutValues}
             minDate={minDate}
             maxDate={maxDate}
             placeholderText="Check-out Date"
@@ -110,7 +128,9 @@ const SearchBar = () => {
           />
         </div>
         <div className="flex gap-1">
-          <button className="w-2/3 bg-blue-600 text-white h-full p-2 font-bold text-lg hover:bg-blue-500 rounded">
+          <button
+            onClick={handleSubmit}
+            className="w-2/3 bg-blue-600 text-white h-full p-2 font-bold text-lg hover:bg-blue-500 rounded">
             Search
           </button>
           <button className="w-1/3 bg-red-600 text-white h-full p-2 font-bold text-lg hover:bg-red-500 rounded">

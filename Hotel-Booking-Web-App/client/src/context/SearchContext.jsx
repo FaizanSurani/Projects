@@ -2,8 +2,8 @@ import { createContext, useReducer } from "react";
 
 const initialState = {
   destination: "",
-  checkIn: "",
-  checkOut: "",
+  checkIn: null,
+  checkOut: null,
   adultCount: 1,
   childCount: 0,
 };
@@ -53,4 +53,3 @@ const SearchContextProvider = ({ children }) => {
 };
 
 export { SearchContext, SearchContextProvider };
-export default SearchContextProvider;
