@@ -38,11 +38,13 @@ const SearchContextProvider = ({ children }) => {
   ) => {
     dispatch({
       type: "SET_SEARCH_VALUES",
-      payload: destination,
-      checkIn,
-      checkOut,
-      adultCount,
-      childCount,
+      payload: {
+        destination,
+        checkIn,
+        checkOut,
+        adultCount,
+        childCount,
+      },
     });
   };
   return (

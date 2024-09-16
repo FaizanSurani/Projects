@@ -34,11 +34,11 @@ const SearchBar = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     saveSearchValues(
-      destinationValues,
-      checkInValues,
-      checkOutValues,
-      adultCountValues,
-      childCountValues
+      searchValue.destinationValues,
+      searchValue.checkInValues,
+      searchValue.checkOutValues,
+      searchValue.adultCountValues,
+      searchValue.childCountValues
     );
 
     navigate("/search");
@@ -64,7 +64,7 @@ const SearchBar = () => {
           <input
             type="text"
             placeholder="Where are you going?"
-            className="text-md focus:outline-none"
+            className="w-full text-md focus:outline-none"
             value={destinationValues}
             onChange={(e) => handleChange("destination", e.target.value)}
           />
@@ -109,7 +109,7 @@ const SearchBar = () => {
             minDate={minDate}
             maxDate={maxDate}
             placeholderText="Check-in Date"
-            className="min-w-full bg-white p-1 focus:outline-none"
+            className="w-full bg-white p-1 focus:outline-none"
           />
         </div>
 
@@ -123,7 +123,7 @@ const SearchBar = () => {
             minDate={minDate}
             maxDate={maxDate}
             placeholderText="Check-out Date"
-            className="min-w-full bg-white p-1 focus:outline-none"
+            className="w-full bg-white p-1 focus:outline-none"
             wrapperClassName="min-w-full"
           />
         </div>

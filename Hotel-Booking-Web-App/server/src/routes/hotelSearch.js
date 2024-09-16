@@ -9,7 +9,7 @@ router.get("/searchHotel", async (req, res) => {
     );
     const skip = (pageNumber - 1) * pageSize;
     const hotels = await hotel.find().skip(skip).limit(pageSize);
-    const total = hotels.countDocuments();
+    const total = hotel.countDocuments();
 
     const response = {
       data: hotels,
