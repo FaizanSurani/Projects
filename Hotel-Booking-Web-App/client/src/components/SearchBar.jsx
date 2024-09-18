@@ -4,6 +4,7 @@ import { SearchContext } from "../context/SearchContext";
 import DatePicker from "react-datepicker";
 import { useNavigate } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
+import axios from "axios";
 
 const SearchBar = () => {
   const {
@@ -31,7 +32,7 @@ const SearchBar = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     saveSearchValues(
       searchValue.destinationValues,
@@ -40,6 +41,23 @@ const SearchBar = () => {
       searchValue.adultCountValues,
       searchValue.childCountValues
     );
+
+    const queryParams = new URLSearchParams();
+    queryParams.append("destination", destinationValues);
+    queryParams.append("checkIn", checkInValues.toISOString());
+    queryParams.append("checkOut", checkOutValues.toISOString());
+    queryParams.append("adultCount", adultCountValues);
+    queryParams.append("childCount", childCountValues);
+
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/v1/searchHotel?${queryParams}`
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error fetching hotel data:", error);
+      alert("Error fetching hotel data");
+    }
 
     navigate("/search");
   };
