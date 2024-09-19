@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { hotel } = require("../models/hotelSchema");
+const hotel = require("../models/hotelSchema");
 
 router.get("/searchHotel", async (req, res) => {
   try {
@@ -12,12 +12,7 @@ router.get("/searchHotel", async (req, res) => {
     const query = {};
 
     if (req.query.destination) {
-      query.destination = req.query.destination;
-    }
-
-    if (req.query.checkIn && req.query.checkOut) {
-      query.checkIn = new Date(req.query.checkIn);
-      query.checkOut = new Date(req.query.checkOut);
+      query.hotelCity = req.query.destination;
     }
 
     if (req.query.adultCount) {
@@ -27,8 +22,12 @@ router.get("/searchHotel", async (req, res) => {
       query.childCount = req.query.childCount;
     }
 
+    console.log("Query Params:", req.query);
+
     const hotels = await hotel.find(query).skip(skip).limit(pageSize);
     const total = await hotel.countDocuments(query);
+
+    console.log("Fetched Hotels:", hotels);
 
     const response = {
       data: hotels,
@@ -41,7 +40,8 @@ router.get("/searchHotel", async (req, res) => {
 
     return res.status(200).json(response);
   } catch (error) {
-    return res.status(500).json({ message: error });
+    console.error("Error fetching hotels:", error);
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 });
 
