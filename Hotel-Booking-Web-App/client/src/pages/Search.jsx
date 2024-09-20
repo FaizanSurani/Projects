@@ -46,17 +46,15 @@ const Search = () => {
           </div>
         </div>
         <div className="flex flex-col gap-5">
-          <div className="flex justify-center items-center">
-            <span className="text-xl font-bold p-3">
-              {data && Array.isArray(data) && data.length > 0 ? (
-                data.map((hotel) => (
-                  <SearchResultCard key={hotel.id} hotel={hotel} />
-                ))
-              ) : (
-                <div>No Hotels found.</div>
-              )}
+          <div className="flex justify-between items-center">
+            <span className="text-xl font-bold pt-3">
+              {data?.pagination.total} Hotels Found
+              {search.destination ? ` in ${search.destination}` : ""}
             </span>
           </div>
+          {data?.data.map((hotel) => (
+            <SearchResultCard hotel={hotel} />
+          ))}
         </div>
       </div>
     </>
