@@ -12,12 +12,30 @@ const SearchResultCard = ({ hotel }) => {
         />
       </div>
       <div className="grid grid-rows-[1fr_2fr_1fr]">
-        <div className="flex items-center">
-          <span className="flex">
-            {Array.from({ length: hotel.rating }).map(() => (
-              <AiFillStar />
+        <div>
+          <div className="flex items-center">
+            <span className="flex">
+              {Array.from({ length: hotel.rating }).map(() => (
+                <AiFillStar className="fill-yellow-400" />
+              ))}
+            </span>
+            <span className="ml-1 text-sm">{hotel.hotelType}</span>
+          </div>
+          <h2 className="text-2xl font-bold cursor-pointer">
+            {hotel.hotelName}
+          </h2>
+        </div>
+        <div>
+          <div className="line-clamp-4">{hotel.hotelDescription}</div>
+        </div>
+        <div className="grid grid-cols-2 items-end whitespace-nowrap">
+          <div className="flex gap-1 items-center">
+            {hotel.facilities.slice(0, 3).map((facility) => (
+              <span className="bg-slate-300 p-2 rounded-lg font-bold text-sm whitespace-nowrap">
+                {facility}
+              </span>
             ))}
-          </span>
+          </div>
         </div>
       </div>
     </div>
