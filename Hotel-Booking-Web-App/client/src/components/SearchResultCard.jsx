@@ -1,9 +1,10 @@
 import React from "react";
 import { AiFillStar } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 const SearchResultCard = ({ hotel }) => {
   return (
-    <div className="grid grid-cols-1 xl:grid-cols-[2fr_3fr] border border-slate-300 rounded-lg p-5 gap-5">
+    <div className="grid grid-cols-1 xl:grid-cols-[2fr_3fr] border border-slate-300 rounded-lg p-8 gap-5">
       <div className="w-full h-[300px]">
         <img
           src={hotel.imageURL[0]}
@@ -35,6 +36,16 @@ const SearchResultCard = ({ hotel }) => {
                 {facility}
               </span>
             ))}
+            <span className="text-sm">
+              {hotel.facilities.length > 3 &&
+                `+${hotel.facilities.length - 3} more`}
+            </span>
+          </div>
+          <div className="flex flex-col items-end gap-1">
+            <span className="font-bold">{hotel.pricePerNight} per night</span>
+            <Link className="bg-blue-600 text-white h-full p-2 font-bold text-lg max-w-fit hover:bg-blue-500 rounded">
+              View More
+            </Link>
           </div>
         </div>
       </div>
