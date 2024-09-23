@@ -3,6 +3,7 @@ import { SearchContext } from "../context/SearchContext";
 import { useQuery } from "@tanstack/react-query";
 import SearchResultCard from "../components/SearchResultCard";
 import axios from "axios";
+import Pagination from "../components/Pagination";
 
 const Search = () => {
   const search = useContext(SearchContext);
@@ -55,6 +56,13 @@ const Search = () => {
           {data?.data.map((hotel) => (
             <SearchResultCard hotel={hotel} />
           ))}
+          <div>
+            <Pagination
+              page={data?.pagination.page || 1}
+              pages={data?.pagination.pages || 1}
+              onPageChange={(page) => setPage(page)}
+            />
+          </div>
         </div>
       </div>
     </>

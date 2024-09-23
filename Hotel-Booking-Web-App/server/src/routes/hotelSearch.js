@@ -22,12 +22,8 @@ router.get("/searchHotel", async (req, res) => {
       query.childCount = req.query.childCount;
     }
 
-    console.log("Query Params:", req.query);
-
     const hotels = await hotel.find(query).skip(skip).limit(pageSize);
     const total = await hotel.countDocuments(query);
-
-    console.log("Fetched Hotels:", hotels);
 
     const response = {
       data: hotels,
