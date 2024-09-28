@@ -15,7 +15,7 @@ router.get("/searchHotel", async (req, res) => {
         sortOptions = { pricePerNight: 1 };
         break;
 
-      case "pricePerNigthDesc":
+      case "pricePerNightDesc":
         sortOptions = { pricePerNight: -1 };
         break;
     }
@@ -93,12 +93,12 @@ const constructSearchQuery = (queryParams) => {
     const ratings = Array.isArray(queryParams.rating)
       ? queryParams.rating.map((star) => parseInt(star))
       : parseInt(queryParams.rating);
-    constructQuery.ratings = { $eq: ratings };
+    constructQuery.rating = { $in: ratings };
   }
 
   if (queryParams.pricePerNight) {
     constructQuery.pricePerNight = {
-      $lte: parseInt(queryParams.pricePerNight).toString(),
+      $lte: parseInt(queryParams.pricePerNight),
     };
   }
 

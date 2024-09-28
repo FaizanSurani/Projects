@@ -4,10 +4,12 @@ import { useQuery } from "@tanstack/react-query";
 import SearchResultCard from "../components/SearchResultCard";
 import axios from "axios";
 import Pagination from "../components/Pagination";
+import RatingFilter from "../components/RatingFilter";
 
 const Search = () => {
   const search = useContext(SearchContext);
   const [page, setPage] = useState(1);
+  const [selectedStars, setSelectedStars] = useState([]);
 
   const searchParams = {
     destination: search?.destination || "",
@@ -16,6 +18,7 @@ const Search = () => {
     adultCount: search.adultCount?.toString() || "1",
     childCount: search.childCount?.toString() || "0",
     page: page.toString(),
+    rating: selectedStars,
   };
 
   const fetchHotels = async (searchParams) => {
@@ -36,6 +39,16 @@ const Search = () => {
     queryFn: () => fetchHotels(searchParams),
   });
 
+  const handleStarsChange = (e) => {
+    const rating = e.target.value;
+
+    setSelectedStars((prev) =>
+      e.target.checked
+        ? [...prev, rating]
+        : prev.filter((star) => star !== rating)
+    );
+  };
+
   return (
     <>
       <div className="grid grid-cols-1 lg:grid-cols-[225px_1fr] gap-5 min-h-screen">
@@ -44,6 +57,10 @@ const Search = () => {
             <h3 className="text-lg font-semibold border-b border-slate-300 pb-5">
               Filter By:
             </h3>
+            <RatingFilter
+              selectedStars={selectedStars}
+              onChange={handleStarsChange}
+            />
           </div>
         </div>
         <div className="flex flex-col gap-5">
