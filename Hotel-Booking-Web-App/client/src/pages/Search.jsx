@@ -5,11 +5,17 @@ import SearchResultCard from "../components/SearchResultCard";
 import axios from "axios";
 import Pagination from "../components/Pagination";
 import RatingFilter from "../components/RatingFilter";
+import TypesFilter from "../components/TypesFilter";
+import FacilitiesFilter from "../components/FacilitiesFilter";
+import PriceFilters from "../components/PriceFilters";
 
 const Search = () => {
   const search = useContext(SearchContext);
   const [page, setPage] = useState(1);
   const [selectedStars, setSelectedStars] = useState([]);
+  const [selectedTypes, setSelectedTypes] = useState([]);
+  const [selectedFacilities, setSelectedFacilities] = useState([]);
+  const [selectedPrice, setselectedPrice] = useState();
 
   const searchParams = {
     destination: search?.destination || "",
@@ -19,6 +25,9 @@ const Search = () => {
     childCount: search.childCount?.toString() || "0",
     page: page.toString(),
     rating: selectedStars,
+    hotelType: selectedTypes,
+    facilities: selectedFacilities,
+    pricePerNight: selectedPrice,
   };
 
   const fetchHotels = async (searchParams) => {
@@ -49,6 +58,26 @@ const Search = () => {
     );
   };
 
+  const handleTypesChange = (e) => {
+    const hotelType = e.target.value;
+
+    setSelectedTypes((prev) =>
+      e.target.checked
+        ? [...prev, hotelType]
+        : prev.filter((type) => type !== hotelType)
+    );
+  };
+
+  const handleFacilities = (e) => {
+    const facilities = e.target.value;
+
+    setSelectedFacilities((prev) =>
+      e.target.checked
+        ? [...prev, facilities]
+        : prev.filter((facility) => facility !== facilities)
+    );
+  };
+
   return (
     <>
       <div className="grid grid-cols-1 lg:grid-cols-[225px_1fr] gap-5 min-h-screen">
@@ -60,6 +89,18 @@ const Search = () => {
             <RatingFilter
               selectedStars={selectedStars}
               onChange={handleStarsChange}
+            />
+            <TypesFilter
+              selectedTypes={selectedTypes}
+              onChange={handleTypesChange}
+            />
+            <FacilitiesFilter
+              selectedFacilites={selectedFacilities}
+              onChange={handleFacilities}
+            />
+            <PriceFilters
+              selectedPrice={selectedPrice}
+              onChange={(value) => setselectedPrice(value)}
             />
           </div>
         </div>

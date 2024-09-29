@@ -7,7 +7,7 @@ router.get("/searchHotel", async (req, res) => {
 
     let sortOptions = {};
     switch (req.query.sortOptions) {
-      case "ratings":
+      case "rating":
         sortOptions = { ratings: -1 };
         break;
 
