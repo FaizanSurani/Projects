@@ -6,6 +6,7 @@ const PriceFilters = ({ selectedPrice, onChange }) => {
       <div>
         <h4 className="text-md font-semibold mb-2">Max Price</h4>
         <select
+          className="p-2 w-full rounded-md"
           value={selectedPrice}
           onChange={(e) =>
             onChange(e.target.value) ? parseInt(e.target.value) : undefined

@@ -16,6 +16,7 @@ const Search = () => {
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [selectedFacilities, setSelectedFacilities] = useState([]);
   const [selectedPrice, setselectedPrice] = useState();
+  const [sortOptions, setSortOptions] = useState("");
 
   const searchParams = {
     destination: search?.destination || "",
@@ -27,7 +28,8 @@ const Search = () => {
     rating: selectedStars,
     hotelType: selectedTypes,
     facilities: selectedFacilities,
-    pricePerNight: selectedPrice,
+    pricePerNight: selectedPrice?.toString(),
+    sortOptions,
   };
 
   const fetchHotels = async (searchParams) => {
@@ -110,11 +112,24 @@ const Search = () => {
               {data?.pagination.total} Hotels Found
               {search.destination ? ` in ${search.destination}` : ""}
             </span>
+            <select
+              value={sortOptions}
+              onChange={(e) => setSortOptions(e.target.value)}
+              className="p-4 border rounded-md">
+              <option value="">Sort By:</option>
+              <option value="rating">Rating</option>
+              <option value="pricePerNightAsc">
+                Price Per Night (low to high)
+              </option>
+              <option value="pricePerNightDesc">
+                Price Per Night (high to low)
+              </option>
+            </select>
           </div>
           {data?.data.map((hotel) => (
             <SearchResultCard hotel={hotel} />
           ))}
-          <div>
+          <div className="p-2">
             <Pagination
               page={data?.pagination.page || 1}
               pages={data?.pagination.pages || 1}

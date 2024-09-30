@@ -96,7 +96,7 @@ const constructSearchQuery = (queryParams) => {
     constructQuery.rating = { $in: ratings };
   }
 
-  if (queryParams.pricePerNight) {
+  if (queryParams.pricePerNight && !isNaN(queryParams.pricePerNight)) {
     constructQuery.pricePerNight = {
       $lte: parseInt(queryParams.pricePerNight),
     };
