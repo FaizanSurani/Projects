@@ -1,5 +1,26 @@
 const router = require("express").Router();
 const hotel = require("../models/hotelSchema");
+const { param, validationResult } = require("express-validator");
+
+router.get(
+  "/:id",
+  [param("id").notEmpty().withMessage("HotelID is required")],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const id = req.params.id.toString();
+
+    try {
+      const hotels = hotel.findById(id);
+      return res.json(hotel);
+    } catch (error) {
+      return res.status(500).json({ message: "Error fetching hotel" });
+    }
+  }
+);
 
 router.get("/searchHotel", async (req, res) => {
   try {
